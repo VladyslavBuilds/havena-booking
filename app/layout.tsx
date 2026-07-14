@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito } from "next/font/google"
 import "./globals.css";
+import Navbar from "./components/navbar/Navbar"
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +21,10 @@ export const metadata: Metadata = {
   description: "Airbnb clone",
 };
 
+const font = Nunito ({
+  subsets: ["latin"],
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,9 +35,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body>
+      <body className={font.className}>
+        <Navbar />
         {children}
-      </body>
+        </body>
     </html>
   );
 }
