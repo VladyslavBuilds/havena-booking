@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Nunito } from "next/font/google"
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar"
+import ClientOnly from "./components/ClientOnly";
+import RegisterModal from "./components/modals/RegisterModal";
 
 
 
@@ -36,8 +38,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className={font.className}>
-        <Navbar />
-        {children}
+        <ClientOnly>
+          <RegisterModal />
+          <Navbar />
+        </ClientOnly>
+        <div className="pb-20 pt-28">
+          {children}
+        </div>
         </body>
     </html>
   );
