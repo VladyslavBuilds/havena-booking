@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SafeListing, SafeUser } from "@/app/types";
 import useCountries from "@/app/hooks/useCountries";
 import Image from "next/image";
+import HeartButton from "../HeartButton";
 
 interface ListingCardProps {
     data: SafeListing;
@@ -48,6 +49,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
                             transition
                         "
                     />
+                    <div className="absolute top-3 right-3">
+                        <HeartButton 
+                            listingId={data.id}
+                            currentUser={currentUser}
+                        />
+                    </div>
                 </div>
                 <div className="font-semibold text-lg">
                     {location?.region}, {location?.label}
