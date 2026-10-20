@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Havena
 
-## Getting Started
+**Havena** is a full-stack vacation rental booking platform: guests can find and book stays, hosts can list their homes and manage reservations.
 
-First, run the development server:
+> 🚧 **Work in progress.** The project started from a video tutorial (an Airbnb clone), which I built step by step over two months while learning Next.js. I'm now extending it with my own improvements: bug fixes, security hardening, listing editing, reviews & ratings, and a rebrand.
+
+## Features
+
+- Sign up and log in with email & password, GitHub or Google
+- Create a listing in a multi-step form: category, location on a map, details, photo upload, price
+- Browse listings and filter by category, country, dates and number of guests
+- Book a stay with a date-range calendar (already booked dates are blocked)
+- Trips, reservations, favorites and "my properties" pages
+- Cancel reservations and delete your own listings
+
+## Tech stack
+
+- **Framework:** Next.js 16 (App Router), React 19, TypeScript
+- **Styling:** Tailwind CSS 4
+- **Database:** MongoDB with Prisma ORM
+- **Auth:** NextAuth (credentials + OAuth)
+- **Other:** Zustand, React Hook Form, Cloudinary, Leaflet, date-fns
+
+## Getting started
 
 ```bash
+git clone https://github.com/VladyslavBuilds/havena-booking.git
+cd havena-booking
+npm install
+cp .env.example .env   # then fill in your own values
+npx prisma db push
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Roadmap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Fix production build and known bugs
+- [ ] Security: request validation, no sensitive data sent to the client
+- [ ] Edit listings
+- [ ] Reviews and ratings
+- [ ] Rebrand to Havena
+- [ ] Deploy to Vercel
