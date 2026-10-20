@@ -43,3 +43,14 @@ next-env.d.ts
 /app/generated/prisma
 
 /app/generated/prisma
+
+# allow the env template (no secrets inside)
+!.env.example
+
+# local AI tooling
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+AGENTS.md
+CLAUDE.md
