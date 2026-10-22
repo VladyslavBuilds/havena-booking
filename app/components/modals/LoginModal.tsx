@@ -48,8 +48,6 @@ const LoginModal = () => {
             redirect: false,
         })
         .then((callback) => {
-            setIsLoading(false);
-
             if (callback?.ok) {
                 toast.success('Logged in');
                 router.refresh();
@@ -60,6 +58,12 @@ const LoginModal = () => {
                 toast.error(callback.error);
             }
 
+        })
+        .catch(() => {
+            toast.error('Something went wrong.');
+        })
+        .finally(() => {
+            setIsLoading(false);
         })
     }
 
