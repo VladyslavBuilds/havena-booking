@@ -63,7 +63,7 @@ const Input: React.FC<InputProps> = ({
                 disabled:cursor-not-allowed
                 ${formatPrice ? 'pl-9' : 'pl-4'}
                 ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-                ${errors[id] ? 'focus-border-rose-500' : 'focus:border-black'}
+                ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
             `}
         />
             <label

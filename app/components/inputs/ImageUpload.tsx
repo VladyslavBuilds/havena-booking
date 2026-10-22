@@ -41,7 +41,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                             border-neutral-300
                             flex
                             flex-col
-                            justify-content
+                            justify-center
                             items-center
                             gap-4
                             text-neutral-600
