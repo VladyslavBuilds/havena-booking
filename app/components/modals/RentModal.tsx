@@ -85,6 +85,21 @@ const RentModal = () => {
     };
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        if (step === STEPS.CATEGORY && !category) {
+            toast.error('Please select a category.');
+            return;
+        }
+
+        if (step === STEPS.LOCATION && !location) {
+            toast.error('Please select a location.');
+            return;
+        }
+
+        if (step === STEPS.IMAGES && !imageSrc) {
+            toast.error('Please upload a photo.');
+            return;
+        }
+
         if (step !== STEPS.PRICE) {
             return onNext();
         }
