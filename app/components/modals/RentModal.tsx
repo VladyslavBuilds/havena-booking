@@ -189,7 +189,7 @@ const RentModal = () => {
                 <hr />
                 <Counter 
                     title="Rooms"
-                    subtitle="How many rooms do you have"
+                    subtitle="How many rooms do you have?"
                     value={roomCount}
                     onChange={(value) => setCustomValue('roomCount', value )}
                 />
@@ -223,7 +223,7 @@ const RentModal = () => {
         bodyContent = (
             <div className="flex flex-col gap-8">
                 <Heading 
-                    title="How would you  describe your place?"
+                    title="How would you describe your place?"
                     subtitle="Short and sweet works best!"
                 />
                 <Input 
@@ -252,7 +252,7 @@ const RentModal = () => {
             <div className="flex flex-col gap-8">
                 <Heading 
                     title="Now, set your price"
-                    subtitle="How much do you charge per night"
+                    subtitle="How much do you charge per night?"
                 />
                 <Input 
                     id="price"

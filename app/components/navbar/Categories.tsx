@@ -37,7 +37,7 @@ export const categories = [
     {
         label: 'Countryside',
         icon: TbMountain,
-        description: 'This property is im the countryside!'
+        description: 'This property is in the countryside!'
     },
     {
         label: 'Pools',
@@ -72,7 +72,7 @@ export const categories = [
     {
         label: 'Arctic',
         icon: BsSnow,
-        description: 'This property is in arctic'
+        description: 'This property is in the Arctic!'
     },
     {
         label: 'Cave',
@@ -82,7 +82,7 @@ export const categories = [
     {
         label: 'Desert',
         icon: GiCactus,
-        description: 'This property is in desert!'
+        description: 'This property is in the desert!'
     },
     {
         label: 'Barns',
@@ -92,7 +92,7 @@ export const categories = [
     {
         label: 'Lux',
         icon: IoDiamond,
-        description: 'This property is luxurious'
+        description: 'This property is luxurious!'
     },
 ]
 
