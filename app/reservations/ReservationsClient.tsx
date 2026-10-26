@@ -2,6 +2,7 @@
 
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import getErrorMessage from "@/app/libs/getErrorMessage";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -31,8 +32,8 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
             toast.success("Reservation cancelled");
             router.refresh();
         })
-        .catch(() => {
-            toast.error('Something went wrong.');
+        .catch((error) => {
+            toast.error(getErrorMessage(error));
         })
         .finally(() => {
             setDeletingId('');

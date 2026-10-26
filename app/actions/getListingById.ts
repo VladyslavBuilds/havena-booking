@@ -15,7 +15,11 @@ export default async function getListingById(
                 id: listingId
             },
             include: {
-                user: true
+                user: {
+                    omit: {
+                        hashedPassword: true
+                    }
+                }
             }
         });
 

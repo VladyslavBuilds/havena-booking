@@ -2,33 +2,40 @@ import { NextResponse } from "next/server";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import { errorResponse, objectIdSchema, validationError } from "@/app/libs/api";
 
 interface IParams {
     listingId?: string;
 }
 
 export async function DELETE(
-    request: Request,
+    _request: Request,
     { params }: { params: Promise<IParams> }
 ) {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-        return NextResponse.error();
+        return errorResponse("You must be logged in", 401);
     }
 
-    const { listingId } = await params;
-    
-    if (!listingId || typeof listingId !== 'string') {
-        throw new Error('Invalid ID')
+    const parsedId = objectIdSchema.safeParse((await params).listingId);
+
+    if (!parsedId.success) {
+        return validationError(parsedId.error);
     }
 
-    const listing = await prisma.listing.deleteMany({
+    // The owner check is part of the query: a listing that belongs to
+    // someone else simply does not match, so nothing is deleted.
+    const result = await prisma.listing.deleteMany({
         where: {
-            id: listingId,
+            id: parsedId.data,
             userId: currentUser.id
         }
     });
 
-    return NextResponse.json(listing);
+    if (result.count === 0) {
+        return errorResponse("Listing not found", 404);
+    }
+
+    return NextResponse.json({ success: true });
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import getErrorMessage from "@/app/libs/getErrorMessage";
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
@@ -49,7 +50,7 @@ const RegisterModal = () => {
             registerModal.onClose();
         })
         .catch((error) => {
-            toast.error('Something went wrong.');
+            toast.error(getErrorMessage(error));
         })
         .finally(() => {
             setIsLoading(false);

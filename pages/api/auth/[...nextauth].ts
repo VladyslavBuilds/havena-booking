@@ -34,7 +34,8 @@ export const authOptions: AuthOptions = {
 
                 const user = await prisma.user.findUnique({
                     where: {
-                        email: credentials.email
+                        // Stored lower-cased by /api/register
+                        email: credentials.email.trim().toLowerCase()
                     }
                 });
 

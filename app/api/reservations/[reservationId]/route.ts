@@ -2,30 +2,32 @@ import { NextResponse } from "next/server";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import { errorResponse, objectIdSchema, validationError } from "@/app/libs/api";
 
 interface IParams {
     reservationId?: string;
-};
+}
 
 export async function DELETE(
-    request: Request,
+    _request: Request,
     { params }: { params: Promise<IParams> }
 ) {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-        return NextResponse.error();
+        return errorResponse("You must be logged in", 401);
     }
 
-    const { reservationId } = await params;
+    const parsedId = objectIdSchema.safeParse((await params).reservationId);
 
-    if (!reservationId || typeof reservationId !== 'string') {
-        throw new Error('Invalid ID');
+    if (!parsedId.success) {
+        return validationError(parsedId.error);
     }
 
-    const reservation = await prisma.reservation.deleteMany({
+    // Both the guest who booked and the host of the listing may cancel.
+    const result = await prisma.reservation.deleteMany({
         where: {
-            id: reservationId,
+            id: parsedId.data,
             OR: [
                 { userId: currentUser.id },
                 { listing: { userId: currentUser.id } }
@@ -33,5 +35,9 @@ export async function DELETE(
         }
     });
 
-    return NextResponse.json(reservation);
+    if (result.count === 0) {
+        return errorResponse("Reservation not found", 404);
+    }
+
+    return NextResponse.json({ success: true });
 }
