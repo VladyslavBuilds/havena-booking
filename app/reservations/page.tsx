@@ -2,7 +2,7 @@ import EmptyState from "../components/EmptyState";
 import ClientOnly from "../components/ClientOnly";
 
 import getCurrentUser from "../actions/getCurrentUser";
-import getReservations from "../actions/gerReservations";
+import getReservations from "../actions/getReservations";
 import ReservationsClient from "./ReservationsClient";
 
 const ReservationsPage = async () => {
@@ -13,7 +13,7 @@ const ReservationsPage = async () => {
             <ClientOnly>
                 <EmptyState 
                     title="Unauthorized"
-                    subtitle="Please login"
+                    subtitle="Please log in"
                 />
             </ClientOnly>
         );

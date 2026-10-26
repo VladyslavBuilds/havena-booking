@@ -48,8 +48,6 @@ const LoginModal = () => {
             redirect: false,
         })
         .then((callback) => {
-            setIsLoading(false);
-
             if (callback?.ok) {
                 toast.success('Logged in');
                 router.refresh();
@@ -60,6 +58,12 @@ const LoginModal = () => {
                 toast.error(callback.error);
             }
 
+        })
+        .catch(() => {
+            toast.error('Something went wrong.');
+        })
+        .finally(() => {
+            setIsLoading(false);
         })
     }
 
@@ -72,7 +76,7 @@ const LoginModal = () => {
         <div className='flex flex-col gap-4'>
             <Heading
             title="Welcome back"
-            subtitle="Login to your account!"
+            subtitle="Log in to your account!"
             />
             <Input
                 id="email"

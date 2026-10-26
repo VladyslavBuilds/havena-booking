@@ -32,7 +32,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
             router.refresh();
         })
         .catch(() => {
-            toast.error('Something went wrong');
+            toast.error('Something went wrong.');
         })
         .finally(() => {
             setDeletingId('');
@@ -43,7 +43,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
         <Container>
             <Heading 
                 title="Reservations"
-                subtitle="Booking on your properties"
+                subtitle="Bookings on your properties"
             />
             <div 
                 className="

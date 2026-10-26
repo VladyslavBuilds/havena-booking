@@ -1,6 +1,7 @@
 'use client';
 
 import L from "leaflet";
+import type { StaticImageData } from "next/image";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -8,12 +9,18 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
+// Image imports from node_modules resolve to a plain URL string here,
+// while Next.js types them as StaticImageData ({ src, ... }).
+// Support both so the marker never ends up without an icon URL.
+const toUrl = (image: string | StaticImageData) =>
+    typeof image === "string" ? image : image.src;
+
 //@ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-    iconUrl: markerIcon.src,
-    iconRetinaUrl: markerIcon2x,
-    shadowUrl: markerShadow.src
+    iconUrl: toUrl(markerIcon),
+    iconRetinaUrl: toUrl(markerIcon2x),
+    shadowUrl: toUrl(markerShadow)
 });
 
 interface MapProps {

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Reservation } from "@prisma/client";
 
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
@@ -55,8 +55,22 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }, [reservations]);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [totalPrice, setTotalPrice] = useState(listing.price);
     const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+
+    const totalPrice = useMemo(() => {
+        if (dateRange.startDate && dateRange.endDate) {
+            const dayCount = differenceInCalendarDays(
+                dateRange.endDate,
+                dateRange.startDate
+            );
+
+            if (dayCount && listing.price) {
+                return dayCount * listing.price;
+            }
+        }
+
+        return listing.price;
+    }, [dateRange, listing.price]);
 
     const onCreateReservation = useCallback(() => {
         if (!currentUser) {
@@ -77,7 +91,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
             router.push('/trips');
         })
         .catch(() => {
-            toast.error('Something went wrong');
+            toast.error('Something went wrong.');
         })
         .finally(() => {
             setIsLoading(false)
@@ -90,21 +104,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
         currentUser,
         loginModal
     ]);
-
-    useEffect(() => {
-        if (dateRange.startDate && dateRange.endDate) {
-            const dayCount = differenceInCalendarDays(
-                dateRange.endDate,
-                dateRange.startDate
-            );
-
-            if (dayCount && listing.price) {
-                setTotalPrice(dayCount * listing.price);
-            } else {
-                setTotalPrice(listing.price);
-            }
-        }
-    }, [dateRange, listing.price]);
 
     const category = useMemo(() => {
         return categories.find((item) => 

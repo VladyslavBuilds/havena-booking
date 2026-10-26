@@ -36,7 +36,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Roadmap
 
-- [ ] Fix production build and known bugs
+- [x] Fix production build and known bugs
 - [ ] Security: request validation, no sensitive data sent to the client
 - [ ] Edit listings
 - [ ] Reviews and ratings

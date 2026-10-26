@@ -26,13 +26,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 maxFiles: 1
             }}
         >
-            {({ open }) => {
+            {({ open, isLoading }) => {
                 return (
-                    <div 
-                        onClick={() => open?.()}
-                        className="
+                    <div
+                        onClick={() => {
+                            // The widget script is loaded from Cloudinary;
+                            // opening it before it is ready throws an error.
+                            if (!isLoading) {
+                                open?.();
+                            }
+                        }}
+                        className={`
                             relative
-                            cursor-pointer
+                            ${isLoading ? 'cursor-wait' : 'cursor-pointer'}
                             hover:opacity-70
                             transition
                             border-dashed
@@ -41,15 +47,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                             border-neutral-300
                             flex
                             flex-col
-                            justify-content
+                            justify-center
                             items-center
                             gap-4
                             text-neutral-600
-                        "
+                        `}
                     >
                         <TbPhotoPlus size={50} />
                         <div className="font-semibold text-lg">
-                            Click to upload
+                            {isLoading ? 'Loading…' : 'Click to upload'}
                         </div>
                         {value && (
                             <div 

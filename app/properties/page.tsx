@@ -13,7 +13,7 @@ const PropertiesPage = async () => {
             <ClientOnly>
                 <EmptyState 
                     title="Unauthorized"
-                    subtitle="Please login"
+                    subtitle="Please log in"
                 />
             </ClientOnly>
         )

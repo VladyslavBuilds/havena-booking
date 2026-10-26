@@ -60,19 +60,13 @@ export default async function getListings (
         }
 
         if (startDate && endDate) {
+            // Two date ranges overlap when each one starts
+            // before (or on the day) the other one ends.
             query.NOT = {
                 reservations: {
                     some: {
-                        OR: [
-                            {
-                                endDate: { gte: startDate },
-                                startDate: { lte: startDate },
-                            },
-                            {
-                                startDate: { lte: endDate },
-                                endDate: { gte: endDate}
-                            }
-                        ]
+                        startDate: { lte: endDate },
+                        endDate: { gte: startDate },
                     }
                 }
             }

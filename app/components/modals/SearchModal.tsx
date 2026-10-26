@@ -156,7 +156,7 @@ const SearchModal = () => {
                 />
                 <Counter 
                     title="Guests"
-                    subtitle="How many guest are coming?"
+                    subtitle="How many guests are coming?"
                     value={guestCount}
                     onChange={(value) => setGuestCount(value)}
                 />
