@@ -14,6 +14,7 @@ import Counter from "../inputs/Counter";
 import ImageUpload from "../inputs/ImageUpload";
 import Input from "../inputs/Input";
 import axios from "axios";
+import getErrorMessage from "@/app/libs/getErrorMessage";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -114,8 +115,8 @@ const RentModal = () => {
             setStep(STEPS.CATEGORY);
             rentModal.onClose();
         })
-        .catch(() => {
-            toast.error('Something went wrong.');
+        .catch((error) => {
+            toast.error(getErrorMessage(error));
         }).finally(() => {
             setIsLoading(false);
         })

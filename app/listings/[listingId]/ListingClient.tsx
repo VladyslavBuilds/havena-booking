@@ -3,6 +3,7 @@
 import { Range } from "react-date-range";
 import toast from "react-hot-toast";
 import axios from "axios";
+import getErrorMessage from "@/app/libs/getErrorMessage";
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
@@ -90,8 +91,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
             setDateRange(initialDateRange);
             router.push('/trips');
         })
-        .catch(() => {
-            toast.error('Something went wrong.');
+        .catch((error) => {
+            toast.error(getErrorMessage(error));
         })
         .finally(() => {
             setIsLoading(false)

@@ -2,6 +2,7 @@
 
 import toast from "react-hot-toast";
 import axios from "axios";
+import getErrorMessage from "@/app/libs/getErrorMessage";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
@@ -32,7 +33,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             router.refresh();
         })
         .catch((error) => {
-            toast.error(error?.response?.data?.error);
+            toast.error(getErrorMessage(error));
         })
         .finally(() => {
             setDeletingId('');
