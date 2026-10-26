@@ -20,6 +20,11 @@ export async function POST(
             email,
             name,
             hashedPassword
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true
         }
     });
 
