@@ -21,6 +21,8 @@ interface ListingCardProps {
     // Optional second (outline) button, e.g. "Edit" next to "Delete"
     onSecondaryAction?: (id: string) => void;
     secondaryActionLabel?: string;
+    // Small grey text under the price, e.g. "You reviewed this stay"
+    note?: string;
     currentUser?: SafeUser | null;
 }
 
@@ -33,6 +35,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     actionId  = "",
     onSecondaryAction,
     secondaryActionLabel,
+    note,
     currentUser
 }) => {
     const router = useRouter();
@@ -141,6 +144,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         <div className="font-light">night</div>
                     )}
                 </div>
+                    {note && (
+                        <div className="text-sm font-light text-neutral-500">
+                            {note}
+                        </div>
+                    )}
                     {onSecondaryAction && secondaryActionLabel && (
                       <Button
                         disabled={disabled}
