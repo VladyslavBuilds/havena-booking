@@ -18,6 +18,12 @@ import getErrorMessage from "@/app/libs/getErrorMessage";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
+// Leaflet needs the browser's window object, so the map is never
+// rendered on the server.
+const Map = dynamic(() => import('../Map'), {
+    ssr: false
+});
+
 enum STEPS {
     CATEGORY = 0,
     LOCATION = 1,
@@ -63,10 +69,6 @@ const RentModal = () => {
     const roomCount = watch('roomCount');
     const bathroomCount = watch('bathroomCount');
     const imageSrc = watch('imageSrc')
-
-    const Map = useMemo(() => dynamic(() => import('../Map'), {
-        ssr: false
-    }), [location]);
 
     const setCustomValue = (id: string, value: unknown) => {
         setValue(id, value, {

@@ -15,6 +15,12 @@ import Counter from "../inputs/Counter";
 
 import useSearchModal from "@/app/hooks/useSearchModal"
 
+// Leaflet needs the browser's window object, so the map is never
+// rendered on the server.
+const Map = dynamic(() => import('../Map'), {
+    ssr: false,
+});
+
 enum STEPS {
     LOCATION = 0,
     DATE = 1,
@@ -37,10 +43,6 @@ const SearchModal = () => {
         key: 'selection'
     });
 
-    const Map = useMemo(() => dynamic(() => import('../Map'), {
-        ssr: false,
-    }), [location]);
-    
     const onBack = useCallback(() => {
         setStep((value) => value - 1);
     }, []);
