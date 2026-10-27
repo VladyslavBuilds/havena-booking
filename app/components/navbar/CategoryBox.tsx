@@ -26,7 +26,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
             currentQuery = qs.parse(params.toString());
         }
         
-        const updateQuery: any = {
+        const updateQuery: qs.StringifiableRecord = {
             ...currentQuery,
             category: label
         }

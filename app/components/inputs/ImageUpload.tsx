@@ -10,12 +10,18 @@ interface ImageUploadProps {
     value: string;
 }
 
+// What the widget passes to onSuccess (next-cloudinary does not export it).
+type UploadResult = Parameters<NonNullable<CldUploadWidgetProps["onSuccess"]>>[0];
+
 const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange,
     value
 }) => {
-    const handleUpload = useCallback((result: any) => {
-        onChange(result.info.secure_url);
+    const handleUpload = useCallback((result: UploadResult) => {
+        // info is a string for some widget events; only an object carries the URL
+        if (typeof result.info === "object" && result.info?.secure_url) {
+            onChange(result.info.secure_url);
+        }
     }, [onChange]);
 
     return (

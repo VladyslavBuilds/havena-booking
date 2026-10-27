@@ -36,7 +36,8 @@ export default async function getCurrentUser() {
             updatedAt: currentUser.updatedAt.toISOString(),
             emailVerified: currentUser.emailVerified?.toISOString() || null,
         };
-    } catch (error: any) {
+    } catch {
+        // Treat any failure (expired token, database down) as "not logged in".
         return null;
     }
 }
