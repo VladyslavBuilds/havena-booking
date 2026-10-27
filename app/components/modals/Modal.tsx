@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "../Button";
 
@@ -29,20 +29,22 @@ const Modal: React.FC<ModalProps> = ({
     secondaryAction,
     secondaryActionLabel
 }) =>{
-    const [showModal, setShowModal] = useState(isOpen);
-
-    useEffect(() => {
-        setShowModal(isOpen);
-    }, [isOpen]);
+    // Opening is animated with CSS (animate-modal-in) when the modal
+    // mounts; closing plays the reverse transition before onClose() is
+    // called, so the parent only removes the modal once it has slid out.
+    const [isClosing, setIsClosing] = useState(false);
 
     const handleClose = useCallback(() => {
-        if(disabled) {
+        if (disabled) {
             return;
         }
-            setShowModal(false);
-            setTimeout(() => {
-                onClose();
-            }, 300);
+
+        setIsClosing(true);
+
+        setTimeout(() => {
+            setIsClosing(false);
+            onClose();
+        }, 300);
     }, [disabled, onClose])
 
     const handleSubmit = useCallback (() => {
@@ -98,11 +100,12 @@ const Modal: React.FC<ModalProps> = ({
                 {/*CONTENT*/}
                     <div
                     className={`
+                        animate-modal-in
                         transition
                         duration-300
                         h-full
-                        ${showModal ? 'translate-y-0' : 'translate-y-full'}
-                        ${showModal ? 'opacity-100' : 'opacity-0'}
+                        ${isClosing ? 'translate-y-full' : 'translate-y-0'}
+                        ${isClosing ? 'opacity-0' : 'opacity-100'}
                         `}
                     >
                         <div className="
