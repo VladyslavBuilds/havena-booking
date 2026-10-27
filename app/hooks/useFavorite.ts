@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import toast, { Toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import { SafeUser } from "../types";
 
@@ -46,7 +46,7 @@ const useFavorite = ({
             await request();
             router.refresh();
             toast.success('Success');
-        } catch (error) {
+        } catch {
             toast.error('Something went wrong.');
         }
     },

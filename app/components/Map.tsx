@@ -15,7 +15,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 const toUrl = (image: string | StaticImageData) =>
     typeof image === "string" ? image : image.src;
 
-//@ts-ignore
+// @ts-expect-error _getIconUrl is an internal Leaflet property without a type
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconUrl: toUrl(markerIcon),

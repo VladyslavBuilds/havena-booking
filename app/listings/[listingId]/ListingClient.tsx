@@ -7,7 +7,6 @@ import getErrorMessage from "@/app/libs/getErrorMessage";
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { Reservation } from "@prisma/client";
 
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
