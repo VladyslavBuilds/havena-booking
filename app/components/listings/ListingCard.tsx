@@ -17,6 +17,9 @@ interface ListingCardProps {
     disabled?: boolean;
     actionLabel?: string;
     actionId?: string;
+    // Optional second (outline) button, e.g. "Edit" next to "Delete"
+    onSecondaryAction?: (id: string) => void;
+    secondaryActionLabel?: string;
     currentUser?: SafeUser | null;
 }
 
@@ -27,6 +30,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
     disabled,
     actionLabel,
     actionId  = "",
+    onSecondaryAction,
+    secondaryActionLabel,
     currentUser
 }) => {
     const router = useRouter();
@@ -44,6 +49,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
             onAction?.(actionId);
         }, [onAction, actionId, disabled]);
+
+    const handleSecondaryAction = useCallback(
+        (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+
+            if (disabled) {
+                return;
+            }
+
+            onSecondaryAction?.(actionId);
+        }, [onSecondaryAction, actionId, disabled]);
 
     const price = useMemo(() => {
         if (reservation) {
@@ -113,15 +129,24 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         <div className="font-light">night</div>
                     )}
                 </div>
+                    {onSecondaryAction && secondaryActionLabel && (
+                      <Button
+                        disabled={disabled}
+                        small
+                        outline
+                        label={secondaryActionLabel}
+                        onClick={handleSecondaryAction}
+                      />
+                    )}
                     {onAction && actionLabel && (
-                      <Button  
+                      <Button
                         disabled={disabled}
                         small
                         label={actionLabel}
                         onClick={handleCancel}
                       />
-                    )} 
-                    
+                    )}
+
             </div>
         </div>
     );
