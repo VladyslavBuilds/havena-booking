@@ -1,5 +1,3 @@
-'use client';
-
 import Container from "../Container";
 import Categories from "./Categories";
 import Logo from "./Logo"
