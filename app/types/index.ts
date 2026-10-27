@@ -1,10 +1,24 @@
-import { Listing, Reservation, User } from "@prisma/client";
+import { Listing, Reservation, Review, User } from "@prisma/client";
 
 export type SafeListing = Omit<
     Listing,
     "createdAt"
 > & {
     createdAt: string;
+    // Present when the query included the listing's reviews
+    averageRating?: number | null;
+    reviewCount?: number;
+}
+
+export type SafeReview = Omit<
+    Review,
+    "createdAt"
+> & {
+    createdAt: string;
+    user: {
+        name: string | null;
+        image: string | null;
+    };
 }
 
 export type SafeReservation = Omit<

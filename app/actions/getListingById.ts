@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb"
+import { summarizeReviews } from "@/app/libs/rating";
 
 interface IParams {
     listingId?: string;
@@ -16,7 +17,8 @@ export default async function getListingById(params: IParams) {
                 omit: {
                     hashedPassword: true
                 }
-            }
+            },
+            reviews: { select: { rating: true } }
         }
     });
 
@@ -24,8 +26,11 @@ export default async function getListingById(params: IParams) {
         return null;
     }
 
+    const { reviews, ...rest } = listing;
+
     return {
-        ...listing,
+        ...rest,
+        ...summarizeReviews(reviews),
         createdAt: listing.createdAt.toISOString(),
         user: {
             ...listing.user,

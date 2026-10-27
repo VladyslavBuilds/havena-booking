@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import prisma from "@/app/libs/prismadb";
+import { summarizeReviews } from "@/app/libs/rating";
 
 // Values come from the URL (searchParams), so numbers arrive as strings.
 export interface IListingsParams {
@@ -73,13 +74,17 @@ export default async function getListings(params: IListingsParams) {
 
     const listings = await prisma.listing.findMany({
         where: query,
+        include: {
+            reviews: { select: { rating: true } }
+        },
         orderBy: {
             createdAt: 'desc'
         }
     });
 
-    return listings.map((listing) => ({
+    return listings.map(({ reviews, ...listing }) => ({
         ...listing,
+        ...summarizeReviews(reviews),
         createdAt: listing.createdAt.toISOString(),
     }));
 }
