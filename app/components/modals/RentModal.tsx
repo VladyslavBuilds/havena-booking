@@ -1,9 +1,10 @@
 'use client'
 
 import useRentModal from "@/app/hooks/useRentModal";
+import useCountries from "@/app/hooks/useCountries";
 
 import Modal from "./Modal";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../inputs/CategoryInput";
@@ -33,9 +34,27 @@ enum STEPS {
     PRICE = 5
 }
 
+const emptyForm = {
+    category: '',
+    location: null,
+    guestCount: 1,
+    roomCount: 1,
+    bathroomCount: 1,
+    imageSrc: '',
+    price: 1,
+    title: '',
+    description: ''
+};
+
 const RentModal = () => {
     const router = useRouter();
     const rentModal = useRentModal();
+    const { getByValue } = useCountries();
+
+    // When the modal was opened with rentModal.onEdit(listing), the same
+    // steps edit that listing instead of creating a new one.
+    const editingListing = rentModal.listing;
+    const isEditing = editingListing !== null;
 
     const [step, setStep] = useState(STEPS.CATEGORY);
     const [isLoading, setIsLoading] = useState(false)
@@ -50,18 +69,31 @@ const RentModal = () => {
         },
         reset
     } = useForm<FieldValues>({
-        defaultValues: {
-            category: '',
-            location: null,
-            guestCount: 1,
-            roomCount: 1,
-            bathroomCount: 1,
-            imageSrc: '',
-            price: 1,
-            title: '',
-            description: ''
-        }
+        defaultValues: emptyForm
     });
+
+    // Pre-fill the form with the listing being edited.
+    useEffect(() => {
+        if (editingListing) {
+            reset({
+                category: editingListing.category,
+                location: getByValue(editingListing.locationValue) ?? null,
+                guestCount: editingListing.guestCount,
+                roomCount: editingListing.roomCount,
+                bathroomCount: editingListing.bathroomCount,
+                imageSrc: editingListing.imageSrc,
+                price: editingListing.price,
+                title: editingListing.title,
+                description: editingListing.description
+            });
+        }
+    }, [editingListing, reset, getByValue]);
+
+    const closeAndReset = () => {
+        rentModal.onClose();
+        reset(emptyForm);
+        setStep(STEPS.CATEGORY);
+    };
 
     // useWatch subscribes to single fields (watch() re-renders on any change
     // and is not supported by the React Compiler).
@@ -111,13 +143,15 @@ const RentModal = () => {
 
         setIsLoading(true);
 
-        axios.post('/api/listings', data)
+        const request = isEditing
+            ? axios.patch(`/api/listings/${editingListing.id}`, data)
+            : axios.post('/api/listings', data);
+
+        request
         .then(() => {
-            toast.success('Listing Created!');
+            toast.success(isEditing ? 'Listing updated!' : 'Listing created!');
             router.refresh();
-            reset();
-            setStep(STEPS.CATEGORY);
-            rentModal.onClose();
+            closeAndReset();
         })
         .catch((error) => {
             toast.error(getErrorMessage(error));
@@ -129,11 +163,11 @@ const RentModal = () => {
 
     const actionLabel = useMemo(() => {
         if (step === STEPS.PRICE) {
-            return 'Create';
+            return isEditing ? 'Save' : 'Create';
         }
 
         return 'Next';
-    }, [step]);
+    }, [step, isEditing]);
 
      const secondaryActionLabel = useMemo(() => {
         if (step === STEPS.CATEGORY) {
@@ -292,12 +326,12 @@ const RentModal = () => {
         <Modal
         disabled={isLoading}
         isOpen={rentModal.isOpen}
-        onClose={rentModal.onClose}
+        onClose={closeAndReset}
         onSubmit={handleSubmit(onSubmit)}
         actionLabel={actionLabel}
         secondaryActionLabel={secondaryActionLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-        title='Airbnb your home!'
+        title={isEditing ? 'Edit your home' : 'Airbnb your home!'}
         body={bodyContent}
         />
     );
