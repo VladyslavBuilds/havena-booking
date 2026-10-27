@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@theme {
+  /* Modal content slides up and fades in when it mounts (class: animate-modal-in) */
+  --animate-modal-in: modal-in 300ms ease-out;
+
+  @keyframes modal-in {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
 html,
 body,
 :root {

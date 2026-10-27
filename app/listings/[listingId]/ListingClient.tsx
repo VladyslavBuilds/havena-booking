@@ -7,7 +7,6 @@ import getErrorMessage from "@/app/libs/getErrorMessage";
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { Reservation } from "@prisma/client";
 
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
@@ -84,7 +83,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
             totalPrice,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            listingId: listing?.id
+            listingId: listing.id
         })
         .then(() => {
             toast.success('Listing reserved!');
@@ -100,7 +99,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }, [
         totalPrice,
         dateRange,
-        listing?.id,
+        listing.id,
         router,
         currentUser,
         loginModal

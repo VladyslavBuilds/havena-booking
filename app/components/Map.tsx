@@ -2,7 +2,8 @@
 
 import L from "leaflet";
 import type { StaticImageData } from "next/image";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -15,7 +16,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 const toUrl = (image: string | StaticImageData) =>
     typeof image === "string" ? image : image.src;
 
-//@ts-ignore
+// @ts-expect-error _getIconUrl is an internal Leaflet property without a type
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconUrl: toUrl(markerIcon),
@@ -23,28 +24,48 @@ L.Icon.Default.mergeOptions({
     shadowUrl: toUrl(markerShadow)
 });
 
+// Roughly the middle of Europe, shown until a country is selected.
+const DEFAULT_CENTER: [number, number] = [51, -0.9];
+
 interface MapProps {
-    center?: number[]
+    center?: [number, number];
 }
 
-const Map: React.FC<MapProps> = ({
-    center
-}) => {
+interface RecenterMapProps {
+    center: [number, number];
+    zoom: number;
+}
+
+// MapContainer reads `center` and `zoom` only once, when the map is
+// created. This helper moves the existing map whenever they change.
+const RecenterMap = ({ center, zoom }: RecenterMapProps) => {
+    const map = useMap();
+
+    useEffect(() => {
+        map.setView(center, zoom);
+    }, [map, center, zoom]);
+
+    return null;
+};
+
+const Map: React.FC<MapProps> = ({ center }) => {
+    const position = center ?? DEFAULT_CENTER;
+    const zoom = center ? 4 : 2;
+
     return (
         <MapContainer
-        center={center as L.LatLngExpression || [51, -0.9]}
-        zoom={center ? 4 : 2}
-        scrollWheelZoom={false}
-        className="h-[35vh] rounded-lg"
+            center={position}
+            zoom={zoom}
+            scrollWheelZoom={false}
+            className="h-[35vh] rounded-lg"
         >
-            <TileLayer 
+            <RecenterMap center={position} zoom={zoom} />
+            <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {center && (
-                <Marker 
-                    position={center as L.LatLngExpression}
-                />
+                <Marker position={center} />
             )}
         </MapContainer>
     )

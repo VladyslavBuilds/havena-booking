@@ -1,92 +1,85 @@
+import { Prisma } from "@prisma/client";
 
 import prisma from "@/app/libs/prismadb";
 
+// Values come from the URL (searchParams), so numbers arrive as strings.
 export interface IListingsParams {
     userId?: string;
-    guestCount?: number;
-    roomCount?: number;
-    bathroomCount?: number;
+    guestCount?: string;
+    roomCount?: string;
+    bathroomCount?: string;
     startDate?: string;
     endDate?: string;
     locationValue?: string;
     category?: string;
 }
 
-export default async function getListings (
-    params: IListingsParams
-) {
-    try{
-        const {
-            userId,
-            roomCount,
-            guestCount,
-            bathroomCount,
-            locationValue,
-            startDate,
-            endDate,
-            category
-        } = params;
+export default async function getListings(params: IListingsParams) {
+    const {
+        userId,
+        roomCount,
+        guestCount,
+        bathroomCount,
+        locationValue,
+        startDate,
+        endDate,
+        category
+    } = params;
 
-        let query: any = {};
+    const query: Prisma.ListingWhereInput = {};
 
-        if (userId) {
-            query.userId = userId;
-        }
+    if (userId) {
+        query.userId = userId;
+    }
 
-        if (category) {
-            query.category = category;
-        }
+    if (category) {
+        query.category = category;
+    }
 
-        if (roomCount) {
-            query.roomCount = {
-                gte: +roomCount
-            };
-        }
+    if (roomCount) {
+        query.roomCount = {
+            gte: +roomCount
+        };
+    }
 
-        if (guestCount) {
-            query.guestCount = {
-                gte: +guestCount
-            };
-        }
+    if (guestCount) {
+        query.guestCount = {
+            gte: +guestCount
+        };
+    }
 
-        if (bathroomCount) {
-            query.bathroomCount = {
-                gte: +bathroomCount
-            };
-        }
+    if (bathroomCount) {
+        query.bathroomCount = {
+            gte: +bathroomCount
+        };
+    }
 
-        if (locationValue) {
-            query.locationValue= locationValue;
-        }
+    if (locationValue) {
+        query.locationValue = locationValue;
+    }
 
-        if (startDate && endDate) {
-            // Two date ranges overlap when each one starts
-            // before (or on the day) the other one ends.
-            query.NOT = {
-                reservations: {
-                    some: {
-                        startDate: { lte: endDate },
-                        endDate: { gte: startDate },
-                    }
+    if (startDate && endDate) {
+        // Two date ranges overlap when each one starts
+        // before (or on the day) the other one ends.
+        query.NOT = {
+            reservations: {
+                some: {
+                    startDate: { lte: endDate },
+                    endDate: { gte: startDate },
                 }
             }
         }
-
-
-        const listings = await prisma.listing.findMany({
-            where: query,
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-
-        const safeListings = listings.map((listing) => ({
-            ...listing,
-            createdAt: listing.createdAt.toISOString(),
-        }))
-
-        return safeListings;
-    } catch (error: any) {
-        throw new Error(error);
     }
+
+    const listings = await prisma.listing.findMany({
+        where: query,
+        orderBy: {
+            createdAt: 'desc'
+        }
+    });
+
+    return listings.map((listing) => ({
+        ...listing,
+        createdAt: listing.createdAt.toISOString(),
+    }));
 }

@@ -1,4 +1,4 @@
-'use client';
+import { Suspense } from "react";
 
 import Container from "../Container";
 import Categories from "./Categories";
@@ -12,6 +12,9 @@ interface NavbarProps {
     currentUser?: SafeUser | null;
 }
 
+// Search and Categories read useSearchParams(). On statically rendered
+// pages (e.g. the 404 page) Next.js requires a Suspense boundary around
+// such components; on dynamic pages they render immediately.
 const Navbar: React.FC<NavbarProps> = ({
     currentUser
 }) => {
@@ -23,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = ({
             "
             >
             <Container>
-            <div 
+            <div
                 className="
                 flex
                 flex-row
@@ -34,13 +37,17 @@ const Navbar: React.FC<NavbarProps> = ({
                 "
                 >
                 <Logo />
-                <Search />
-                <UserMenu currentUser={currentUser} />     
+                <Suspense fallback={null}>
+                    <Search />
+                </Suspense>
+                <UserMenu currentUser={currentUser} />
             </div>
             </Container>
 
             </div>
-            <Categories />
+            <Suspense fallback={null}>
+                <Categories />
+            </Suspense>
         </div>
     );
 }
