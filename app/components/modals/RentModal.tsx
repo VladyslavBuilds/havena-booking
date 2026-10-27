@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../inputs/CategoryInput";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import CountrySelect from "../inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import Counter from "../inputs/Counter";
@@ -44,7 +44,7 @@ const RentModal = () => {
         register,
         handleSubmit,
         setValue,
-        watch,
+        control,
         formState: {
             errors,
         },
@@ -63,12 +63,14 @@ const RentModal = () => {
         }
     });
 
-    const category = watch('category');
-    const location = watch('location');
-    const guestCount = watch('guestCount');
-    const roomCount = watch('roomCount');
-    const bathroomCount = watch('bathroomCount');
-    const imageSrc = watch('imageSrc')
+    // useWatch subscribes to single fields (watch() re-renders on any change
+    // and is not supported by the React Compiler).
+    const category = useWatch({ control, name: 'category' });
+    const location = useWatch({ control, name: 'location' });
+    const guestCount = useWatch({ control, name: 'guestCount' });
+    const roomCount = useWatch({ control, name: 'roomCount' });
+    const bathroomCount = useWatch({ control, name: 'bathroomCount' });
+    const imageSrc = useWatch({ control, name: 'imageSrc' });
 
     const setCustomValue = (id: string, value: unknown) => {
         setValue(id, value, {
