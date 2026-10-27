@@ -7,12 +7,15 @@ import { SafeUser } from "@/app/types";
 
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
+import RatingBadge from "./RatingBadge";
 
 interface ListingHeadProps {
     title: string;
     locationValue: string;
     imageSrc: string;
     id: string;
+    averageRating?: number | null;
+    reviewCount?: number;
     currentUser?: SafeUser | null;
 }
 
@@ -21,6 +24,8 @@ const ListingHead: React.FC<ListingHeadProps> = ({
     locationValue,
     imageSrc,
     id,
+    averageRating,
+    reviewCount,
     currentUser
 }) => {
     const { getByValue } = useCountries();
@@ -29,10 +34,17 @@ const ListingHead: React.FC<ListingHeadProps> = ({
 
     return (
         <>
-            <Heading 
+            <Heading
                 title={title}
                 subtitle={`${location?.region}, ${location?.label}`}
             />
+            <div className="-mt-4">
+                <RatingBadge
+                    averageRating={averageRating}
+                    reviewCount={reviewCount}
+                    showCount
+                />
+            </div>
             <div className="
                     w-full
                     h-[60vh]

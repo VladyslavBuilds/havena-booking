@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import Image from "next/image";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
+import RatingBadge from "./RatingBadge";
 
 interface ListingCardProps {
     data: SafeListing;
@@ -115,8 +116,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         />
                     </div>
                 </div>
-                <div className="font-semibold text-lg">
-                    {location?.region}, {location?.label}
+                <div className="flex flex-row items-start justify-between gap-2">
+                    <div className="font-semibold text-lg">
+                        {location?.region}, {location?.label}
+                    </div>
+                    {/* Rating is only known when the listing was loaded with its reviews */}
+                    {data.reviewCount !== undefined && (
+                        <div className="shrink-0 pt-1 text-sm">
+                            <RatingBadge
+                                averageRating={data.averageRating}
+                                reviewCount={data.reviewCount}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className="font-light text-neutral-500">
                     {reservationDate || data.category}
