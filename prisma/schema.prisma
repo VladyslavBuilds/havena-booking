@@ -27,6 +27,7 @@ model User {
   accounts Account[]
   listings Listing[]
   reservations Reservation[]
+  reviews Review[]
 }
 
 model Account{
@@ -64,6 +65,7 @@ model Listing {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
+  reviews Review[]
 }
 
 model Reservation {
@@ -77,4 +79,20 @@ model Reservation {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
+
+// A guest's review of a listing after a completed stay.
+model Review {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  listingId String @db.ObjectId
+  rating Int // 1..5, validated in the API
+  comment String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  // One review per guest per listing
+  @@unique([userId, listingId])
 }
