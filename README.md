@@ -39,6 +39,6 @@ Open [http://localhost:3000](http://localhost:3000).
 - [x] Fix production build and known bugs
 - [x] Security: request validation, no sensitive data sent to the client
 - [x] Edit listings
-- [ ] Reviews and ratings
+- [x] Reviews and ratings
 - [ ] Rebrand to Havena
 - [ ] Deploy to Vercel
