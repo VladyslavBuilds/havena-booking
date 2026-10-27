@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Nunito } from "next/font/google"
 import "./globals.css";
@@ -46,7 +47,10 @@ export default async function RootLayout({
     >
       <body className={font.className}>
         <ToasterProvider />
-        <SearchModal />
+        {/* SearchModal reads useSearchParams(); static pages need a Suspense boundary around it */}
+        <Suspense fallback={null}>
+          <SearchModal />
+        </Suspense>
         <RentModal />
         <LoginModal />
         <RegisterModal />
