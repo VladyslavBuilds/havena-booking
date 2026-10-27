@@ -11,6 +11,7 @@ import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
 
 import { SafeListing, SafeUser } from "../types";
+import useRentModal from "../hooks/useRentModal";
 
 interface PropertiesClientProps {
     listings: SafeListing[];
@@ -22,7 +23,16 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     currentUser
 }) => {
     const router = useRouter();
+    const rentModal = useRentModal();
     const [deletingId, setDeletingId] = useState('');
+
+    const onEdit = useCallback((id: string) => {
+        const listing = listings.find((item) => item.id === id);
+
+        if (listing) {
+            rentModal.onEdit(listing);
+        }
+    }, [listings, rentModal]);
 
     const onCancel = useCallback((id: string) => {
         setDeletingId(id);
@@ -66,6 +76,8 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
                         onAction={onCancel}
                         disabled={deletingId === listing.id}
                         actionLabel="Delete property"
+                        onSecondaryAction={onEdit}
+                        secondaryActionLabel="Edit property"
                         currentUser={currentUser}
                     />
                 ))}
