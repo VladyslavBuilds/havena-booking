@@ -8,6 +8,8 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
+    // `npx prisma db seed` fills the database with demo data (see prisma/seed.mjs)
+    seed: "node prisma/seed.mjs",
   },
   engine: "classic",
   datasource: {
