@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import Image from "next/image";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
+import RatingBadge from "./RatingBadge";
 
 interface ListingCardProps {
     data: SafeListing;
@@ -20,6 +21,8 @@ interface ListingCardProps {
     // Optional second (outline) button, e.g. "Edit" next to "Delete"
     onSecondaryAction?: (id: string) => void;
     secondaryActionLabel?: string;
+    // Small grey text under the price, e.g. "You reviewed this stay"
+    note?: string;
     currentUser?: SafeUser | null;
 }
 
@@ -32,6 +35,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     actionId  = "",
     onSecondaryAction,
     secondaryActionLabel,
+    note,
     currentUser
 }) => {
     const router = useRouter();
@@ -115,8 +119,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         />
                     </div>
                 </div>
-                <div className="font-semibold text-lg">
-                    {location?.region}, {location?.label}
+                <div className="flex flex-row items-start justify-between gap-2">
+                    <div className="font-semibold text-lg">
+                        {location?.region}, {location?.label}
+                    </div>
+                    {/* Rating is only known when the listing was loaded with its reviews */}
+                    {data.reviewCount !== undefined && (
+                        <div className="shrink-0 pt-1 text-sm">
+                            <RatingBadge
+                                averageRating={data.averageRating}
+                                reviewCount={data.reviewCount}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className="font-light text-neutral-500">
                     {reservationDate || data.category}
@@ -129,6 +144,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         <div className="font-light">night</div>
                     )}
                 </div>
+                    {note && (
+                        <div className="text-sm font-light text-neutral-500">
+                            {note}
+                        </div>
+                    )}
                     {onSecondaryAction && secondaryActionLabel && (
                       <Button
                         disabled={disabled}

@@ -8,12 +8,13 @@ import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
-import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
+import { SafeListing, SafeReservation, SafeReview, SafeUser } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
 import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
+import ListingReviews from "@/app/components/listings/ListingReviews";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 
@@ -25,6 +26,7 @@ const initialDateRange = {
 
 interface ListingClientProps {
     reservations?: SafeReservation[];
+    reviews?: SafeReview[];
     listing: SafeListing & {
         user: SafeUser
     };
@@ -34,6 +36,7 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({
     listing,
     reservations = [],
+    reviews = [],
     currentUser
 }) => {
     const loginModal = useLoginModal();
@@ -119,6 +122,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         imageSrc={listing.imageSrc}
                         locationValue={listing.locationValue}
                         id={listing.id}
+                        averageRating={listing.averageRating}
+                        reviewCount={listing.reviewCount}
                         currentUser={currentUser}
                     />
                     <div className="
@@ -156,6 +161,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
                             />
                         </div>
                     </div>
+                    <hr />
+                    <ListingReviews
+                        reviews={reviews}
+                        averageRating={listing.averageRating}
+                    />
                 </div>
             </div>
         </Container>
