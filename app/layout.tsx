@@ -26,8 +26,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Airbnb",
-  description: "Airbnb clone",
+  title: {
+    default: "Havena",
+    template: "%s · Havena",
+  },
+  description: "Havena — find and book unique places to stay, or list your own home.",
 };
 
 const font = Nunito ({

@@ -331,7 +331,7 @@ const RentModal = () => {
         actionLabel={actionLabel}
         secondaryActionLabel={secondaryActionLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-        title={isEditing ? 'Edit your home' : 'Airbnb your home!'}
+        title={isEditing ? 'Edit your home' : 'List your home'}
         body={bodyContent}
         />
     );
