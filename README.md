@@ -40,5 +40,5 @@ Open [http://localhost:3000](http://localhost:3000).
 - [x] Security: request validation, no sensitive data sent to the client
 - [x] Edit listings
 - [x] Reviews and ratings
-- [ ] Rebrand to Havena
+- [x] Rebrand to Havena
 - [ ] Deploy to Vercel
