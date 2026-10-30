@@ -3,7 +3,8 @@ import countries from "world-countries";
 const formattedCountries = countries.map((country) => ({
     value: country.cca3,
     label: country.name.common,
-    flag: country.flag,
+    // Two-letter code for the flag icon (emoji flags don't render on Windows)
+    code: country.cca2.toLowerCase(),
     latlng: country.latlng,
     region: country.region
 }));
