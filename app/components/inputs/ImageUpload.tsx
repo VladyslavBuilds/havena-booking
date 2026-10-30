@@ -67,9 +67,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                             <div 
                                 className="absolute inset-0 w-full h-full"
                             >
-                                <Image 
+                                <Image
                                     alt="upload"
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                     style={{objectFit: 'cover'}}
                                     src={value}
                                 />
