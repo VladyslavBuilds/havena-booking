@@ -15,6 +15,7 @@
     "axios": "^1.18.1",
     "bcrypt": "^6.0.0",
     "date-fns": "^4.4.0",
+    "flag-icons": "^7.6.0",
     "leaflet": "^1.9.4",
     "next": "16.2.10",
     "next-auth": "^4.24.15",

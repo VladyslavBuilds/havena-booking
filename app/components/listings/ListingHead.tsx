@@ -54,9 +54,11 @@ const ListingHead: React.FC<ListingHeadProps> = ({
                 "
             >
                 <Image
-                    alt="Image"
+                    alt={title}
                     src={imageSrc}
                     fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 1024px"
                     className="object-cover w-full"
                 />
                 <div className="absolute top-5 right-5">

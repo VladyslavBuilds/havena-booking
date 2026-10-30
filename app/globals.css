@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/*
+ * Tailwind 4 no longer gives borders a default colour, so every <hr> and
+ * `border-[1px]` without an explicit colour was drawn in the text colour
+ * (black). Use a light grey everywhere, like Tailwind 3 did.
+ */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-neutral-200);
+  }
+}
+
 @theme {
   /* Modal content slides up and fades in when it mounts (class: animate-modal-in) */
   --animate-modal-in: modal-in 300ms ease-out;
