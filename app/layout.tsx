@@ -11,6 +11,7 @@ import SearchModal from "./components/modals/SearchModal";
 import ReviewModal from "./components/modals/ReviewModal";
 
 import ToasterProvider from "./providers/ToasterProvider";
+import ThemeProvider from "./providers/ThemeProvider";
 import getCurrentUser from "./actions/getCurrentUser";
 
 
@@ -48,8 +49,11 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      // next-themes adds the theme class to <html> on the client before hydration
+      suppressHydrationWarning
     >
       <body className={font.className}>
+        <ThemeProvider>
         <ToasterProvider />
         {/* SearchModal reads useSearchParams(); static pages need a Suspense boundary around it */}
         <Suspense fallback={null}>
@@ -63,6 +67,7 @@ export default async function RootLayout({
         <div className="pb-20 pt-28">
           {children}
         </div>
+        </ThemeProvider>
         </body>
     </html>
   );

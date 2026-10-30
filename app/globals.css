@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Dark mode is switched by the `dark` class on <html> (set by next-themes),
+   not by the operating system setting alone. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * Tailwind 4 no longer gives borders a default colour, so every <hr> and
  * `border-[1px]` without an explicit colour was drawn in the text colour
@@ -12,7 +16,70 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-neutral-200);
+
+    @variant dark {
+      border-color: var(--color-neutral-700);
+    }
   }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-neutral-800);
+
+    @variant dark {
+      background-color: var(--color-neutral-950);
+      color: var(--color-neutral-100);
+    }
+  }
+}
+
+/* Third-party widgets that ship their own light styles */
+.dark .rdrCalendarWrapper,
+.dark .rdrDateDisplayWrapper {
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-100);
+}
+.dark .rdrDayNumber span {
+  color: var(--color-neutral-200);
+}
+.dark .rdrDayPassive .rdrDayNumber span,
+.dark .rdrDayDisabled .rdrDayNumber span {
+  color: var(--color-neutral-600);
+}
+.dark .rdrDayDisabled {
+  background: var(--color-neutral-800);
+}
+.dark .rdrMonthAndYearPickers select,
+.dark .rdrNextPrevButton {
+  background: var(--color-neutral-800);
+  color: var(--color-neutral-100);
+}
+.dark .rdrPprevButton i {
+  border-color: transparent var(--color-neutral-200) transparent transparent;
+}
+.dark .rdrNextButton i {
+  border-color: transparent transparent transparent var(--color-neutral-200);
+}
+.dark .rdrWeekDay {
+  color: var(--color-neutral-400);
+}
+
+/* Popup cards are links; keep the page's text colour, not Leaflet's blue */
+.leaflet-popup-content a {
+  color: inherit;
+}
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip {
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-100);
+}
+/* Invert the map tiles so the map is dark as well */
+.dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}
+.dark .leaflet-bar a {
+  background: var(--color-neutral-800);
+  color: var(--color-neutral-100);
 }
 
 @theme {
