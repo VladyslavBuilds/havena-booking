@@ -4,7 +4,9 @@ import L from "leaflet";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, useMap } from "react-leaflet";
+
+import ThemedTileLayer from "../ThemedTileLayer";
 
 import "leaflet/dist/leaflet.css";
 
@@ -105,10 +107,7 @@ const ListingsMap: React.FC<ListingsMapProps> = ({ listings }) => {
             scrollWheelZoom
             className="h-[calc(100vh-13rem)] min-h-[420px] w-full rounded-2xl"
         >
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+            <ThemedTileLayer />
             <FitToMarkers positions={positions} />
 
             {items.map(({ listing, position }) => (
@@ -119,7 +118,7 @@ const ListingsMap: React.FC<ListingsMapProps> = ({ listings }) => {
                     riseOnHover   // bring an overlapping label to the front when hovered
                 >
                     <Popup minWidth={220} maxWidth={220}>
-                        <Link href={`/listings/${listing.id}`} className="block no-underline text-neutral-800 dark:text-neutral-100">
+                        <Link href={`/listings/${listing.id}`} className="block no-underline text-neutral-800! dark:text-neutral-100!">
                             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg">
                                 <Image
                                     src={listing.imageSrc}

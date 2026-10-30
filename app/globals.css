@@ -64,18 +64,10 @@
   color: var(--color-neutral-400);
 }
 
-/* Popup cards are links; keep the page's text colour, not Leaflet's blue */
-.leaflet-popup-content a {
-  color: inherit;
-}
 .dark .leaflet-popup-content-wrapper,
 .dark .leaflet-popup-tip {
   background: var(--color-neutral-900);
   color: var(--color-neutral-100);
-}
-/* Invert the map tiles so the map is dark as well */
-.dark .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
 }
 .dark .leaflet-bar a {
   background: var(--color-neutral-800);
