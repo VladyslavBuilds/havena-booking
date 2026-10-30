@@ -25,10 +25,10 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
                 flex
                 flex-col
                 gap-3
-                hover:border-black
+                hover:border-black dark:hover:border-white
                 transition
                 cursor-pointer
-                ${selected ? 'border-black' : 'border-neutral-200'}
+                ${selected ? 'border-black dark:border-white' : 'border-neutral-200 dark:border-neutral-700'}
             `}
         >
             <Icon size={30} />

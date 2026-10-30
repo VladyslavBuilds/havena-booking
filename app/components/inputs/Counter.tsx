@@ -36,7 +36,7 @@ const Counter: React.FC<CounterProps> = ({
                 <div className="font-medium">
                     {title}
                 </div>
-                <div className="font-light text-gray-600">
+                <div className="font-light text-gray-600 dark:text-neutral-300">
                     {subtitle}
                 </div>
             </div>
@@ -48,11 +48,11 @@ const Counter: React.FC<CounterProps> = ({
                         h-10
                         rounded-full
                         border-[1px]
-                        border-neutral-400
+                        border-neutral-400 dark:border-neutral-500
                         flex
                         items-center
                         justify-center
-                        text-neutral-600
+                        text-neutral-600 dark:text-neutral-300
                         cursor-pointer
                         hover:opacity-80
                         transition
@@ -60,7 +60,7 @@ const Counter: React.FC<CounterProps> = ({
                 >
                     <AiOutlineMinus />
                 </div>
-                <div className="font-light text-xl text-neutral-600">
+                <div className="font-light text-xl text-neutral-600 dark:text-neutral-300">
                     {value}
                 </div>
                 <div
@@ -70,11 +70,11 @@ const Counter: React.FC<CounterProps> = ({
                         h-10
                         rounded-full
                         border-[1px]
-                        border-neutral-400
+                        border-neutral-400 dark:border-neutral-500
                         flex
                         items-center
                         justify-center
-                        text-neutral-600
+                        text-neutral-600 dark:text-neutral-300
                         cursor-pointer
                         hover:opacity-80
                         transition

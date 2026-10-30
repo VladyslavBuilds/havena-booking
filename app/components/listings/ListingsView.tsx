@@ -14,7 +14,7 @@ import ListingCard from "./ListingCard";
 const ListingsMap = dynamic(() => import("./ListingsMap"), {
     ssr: false,
     loading: () => (
-        <div className="h-[calc(100vh-13rem)] min-h-[420px] w-full rounded-2xl bg-neutral-100 animate-pulse" />
+        <div className="h-[calc(100vh-13rem)] min-h-[420px] w-full rounded-2xl bg-neutral-100 dark:bg-neutral-800 animate-pulse" />
     ),
 });
 
@@ -83,6 +83,8 @@ const ListingsView: React.FC<ListingsViewProps> = ({ listings, currentUser, show
                     rounded-full
                     bg-neutral-900
                     text-white
+                    dark:bg-white
+                    dark:text-neutral-900
                     font-semibold
                     shadow-lg
                     hover:scale-105

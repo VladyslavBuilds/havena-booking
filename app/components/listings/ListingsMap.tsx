@@ -43,7 +43,7 @@ const spreadOnRing = (center: [number, number], index: number, total: number): [
 const priceIcon = (price: number) =>
     L.divIcon({
         className: "",
-        html: `<div class="px-3 py-1 rounded-full bg-white border border-neutral-300 shadow-md text-sm font-semibold text-neutral-800 whitespace-nowrap hover:scale-110 hover:bg-neutral-900 hover:text-white transition">$${price}</div>`,
+        html: `<div class="px-3 py-1 rounded-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-600 shadow-md text-sm font-semibold text-neutral-800 dark:text-neutral-100 whitespace-nowrap hover:scale-110 hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-neutral-900 transition">$${price}</div>`,
         iconSize: undefined,
         iconAnchor: [28, 14],
         popupAnchor: [0, -14],
@@ -119,7 +119,7 @@ const ListingsMap: React.FC<ListingsMapProps> = ({ listings }) => {
                     riseOnHover   // bring an overlapping label to the front when hovered
                 >
                     <Popup minWidth={220} maxWidth={220}>
-                        <Link href={`/listings/${listing.id}`} className="block no-underline text-neutral-800">
+                        <Link href={`/listings/${listing.id}`} className="block no-underline text-neutral-800 dark:text-neutral-100">
                             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg">
                                 <Image
                                     src={listing.imageSrc}

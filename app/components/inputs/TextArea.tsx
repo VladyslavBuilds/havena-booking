@@ -32,7 +32,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         <div className="w-full flex flex-col gap-2">
             <label
                 htmlFor={id}
-                className={`text-md ${errors[id] ? 'text-rose-500' : 'text-zinc-500'}`}
+                className={`text-md ${errors[id] ? 'text-rose-500' : 'text-zinc-500 dark:text-neutral-400'}`}
             >
                 {label}
             </label>
@@ -46,7 +46,7 @@ const TextArea: React.FC<TextAreaProps> = ({
                     w-full
                     p-4
                     font-light
-                    bg-white
+                    bg-white dark:bg-neutral-900
                     border-2
                     rounded-md
                     outline-none
@@ -54,8 +54,8 @@ const TextArea: React.FC<TextAreaProps> = ({
                     resize-none
                     disabled:opacity-70
                     disabled:cursor-not-allowed
-                    ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-                    ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
+                    ${errors[id] ? 'border-rose-500' : 'border-neutral-300 dark:border-neutral-600'}
+                    ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black dark:focus:border-white'}
                 `}
             />
         </div>

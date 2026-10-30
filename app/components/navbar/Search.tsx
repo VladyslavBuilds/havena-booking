@@ -97,7 +97,7 @@ const Search = () => {
                     text-sm
                     pl-6
                     pr-2
-                    text-gray-600
+                    text-gray-600 dark:text-neutral-300
                     flex
                     flex-row
                     items-center
