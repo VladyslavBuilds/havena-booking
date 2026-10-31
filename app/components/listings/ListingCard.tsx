@@ -135,7 +135,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         </div>
                     )}
                 </div>
-                <div className="font-light text-neutral-500">
+                <div className="font-light text-neutral-500 dark:text-neutral-400">
                     {reservationDate || data.category}
                 </div>
                 <div className="flex flex-row items-center gap-1">
@@ -147,7 +147,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                     )}
                 </div>
                     {note && (
-                        <div className="text-sm font-light text-neutral-500">
+                        <div className="text-sm font-light text-neutral-500 dark:text-neutral-400">
                             {note}
                         </div>
                     )}

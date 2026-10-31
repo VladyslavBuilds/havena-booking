@@ -38,12 +38,12 @@ const StarRating: React.FC<StarRatingProps> = ({
                     >
                         <AiFillStar
                             size={32}
-                            className={star <= value ? "text-rose-500" : "text-neutral-300"}
+                            className={star <= value ? "text-rose-500" : "text-neutral-300 dark:text-neutral-600"}
                         />
                     </button>
                 ))}
             </div>
-            <div className="text-sm font-light text-neutral-500 h-5">
+            <div className="text-sm font-light text-neutral-500 dark:text-neutral-400 h-5">
                 {LABELS[value]}
             </div>
         </div>

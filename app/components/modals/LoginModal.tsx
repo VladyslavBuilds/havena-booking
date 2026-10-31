@@ -113,7 +113,7 @@ const LoginModal = () => {
                 onClick={() => signIn('github')}
             />
             <div className="
-                    text-neutral-500
+                    text-neutral-500 dark:text-neutral-400
                     text-center
                     mt-4
                     font-light
@@ -127,7 +127,7 @@ const LoginModal = () => {
                     <div 
                         onClick={toggle}
                         className="
-                            text-neutral-800
+                            text-neutral-800 dark:text-neutral-100
                             cursor-pointer
                             hover:underline
                         ">

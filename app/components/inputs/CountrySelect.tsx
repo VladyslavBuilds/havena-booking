@@ -1,6 +1,7 @@
 'use client';
 
 import Select from 'react-select'
+import { useTheme } from 'next-themes';
 
 import useCountries from '@/app/hooks/useCountries';
 
@@ -25,6 +26,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
     onChange
 }) => {
     const { getAll } = useCountries();
+    const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === 'dark';
 
     return (
         <div>
@@ -43,7 +46,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
                             />
                             <div>
                                 {option.label},
-                                <span className="text-neutral-800 ml-1">
+                                <span className="text-neutral-800 dark:text-neutral-100 ml-1">
                                     {option.region}
                                 </span>
                             </div>
@@ -54,13 +57,20 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
                     input: () => 'text-lg',
                     option: () => 'text-lg'
                 }}
+                // react-select draws itself from these colours, so dark mode
+                // is handled here instead of with Tailwind classes.
                 theme={(theme) => ({
                     ...theme,
                     borderRadius: 6,
                     colors: {
                         ...theme.colors,
-                        primary: 'black',
-                        primary25: '#ffe4e6'
+                        primary: isDark ? 'white' : 'black',        // focus ring, selected option
+                        primary25: isDark ? '#3f3f46' : '#ffe4e6',  // hovered option
+                        neutral0: isDark ? '#171717' : 'white',     // control and menu background
+                        neutral20: isDark ? '#525252' : '#e5e5e5',  // border
+                        neutral30: isDark ? '#737373' : '#a3a3a3',  // border on hover
+                        neutral50: isDark ? '#a3a3a3' : '#737373',  // placeholder
+                        neutral80: isDark ? '#f5f5f5' : '#262626',  // text
                     }
                 })}
             />

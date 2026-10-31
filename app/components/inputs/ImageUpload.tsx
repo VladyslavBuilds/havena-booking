@@ -50,13 +50,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                             border-dashed
                             border-2
                             p-20
-                            border-neutral-300
+                            border-neutral-300 dark:border-neutral-600
                             flex
                             flex-col
                             justify-center
                             items-center
                             gap-4
-                            text-neutral-600
+                            text-neutral-600 dark:text-neutral-300
                         `}
                     >
                         <TbPhotoPlus size={50} />

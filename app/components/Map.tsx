@@ -3,7 +3,9 @@
 import L from "leaflet";
 import type { StaticImageData } from "next/image";
 import { useEffect } from "react";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, useMap } from "react-leaflet";
+
+import ThemedTileLayer from "./ThemedTileLayer";
 
 import "leaflet/dist/leaflet.css";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -60,10 +62,7 @@ const Map: React.FC<MapProps> = ({ center }) => {
             className="h-[35vh] rounded-lg"
         >
             <RecenterMap center={position} zoom={zoom} />
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+            <ThemedTileLayer />
             {center && (
                 <Marker position={center} />
             )}

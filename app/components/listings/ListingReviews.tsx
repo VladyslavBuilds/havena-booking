@@ -26,7 +26,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({
             </div>
 
             {reviews.length === 0 && (
-                <div className="font-light text-neutral-500">
+                <div className="font-light text-neutral-500 dark:text-neutral-400">
                     No reviews yet. Guests can leave one after their stay.
                 </div>
             )}
@@ -40,7 +40,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({
                                 <div className="font-semibold">
                                     {review.user.name ?? "Guest"}
                                 </div>
-                                <div className="text-sm font-light text-neutral-500">
+                                <div className="text-sm font-light text-neutral-500 dark:text-neutral-400">
                                     {format(new Date(review.createdAt), "MMMM yyyy")}
                                 </div>
                             </div>
@@ -54,11 +54,11 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({
                                     key={star}
                                     size={16}
                                     aria-hidden="true"
-                                    className={star <= review.rating ? "text-neutral-800" : "text-neutral-300"}
+                                    className={star <= review.rating ? "text-neutral-800 dark:text-neutral-100" : "text-neutral-300 dark:text-neutral-600"}
                                 />
                             ))}
                         </div>
-                        <div className="font-light text-neutral-600 whitespace-pre-line">
+                        <div className="font-light text-neutral-600 dark:text-neutral-300 whitespace-pre-line">
                             {review.comment}
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import Container from "../Container";
 import Categories from "./Categories";
 import Logo from "./Logo"
 import Search from "./Search";
+import ThemeToggle from "./ThemeToggle";
 import UserMenu from "./UserMenu";
 
 import { SafeUser } from "@/app/types";
@@ -19,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({
     currentUser
 }) => {
     return(
-        <div className="fixed w-full bg-white z-10 shadow-sm">
+        <div className="fixed w-full bg-white dark:bg-neutral-950 z-10 shadow-sm">
             <div className="
             py-4
             border-b-[1px]
@@ -40,7 +41,10 @@ const Navbar: React.FC<NavbarProps> = ({
                 <Suspense fallback={null}>
                     <Search />
                 </Suspense>
-                <UserMenu currentUser={currentUser} />
+                <div className="flex flex-row items-center gap-1">
+                    <ThemeToggle />
+                    <UserMenu currentUser={currentUser} />
+                </div>
             </div>
             </Container>
 
