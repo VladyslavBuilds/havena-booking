@@ -14,6 +14,8 @@ interface InputProps {
     disabled?: boolean;
     formatPrice?: boolean;
     required?: boolean;
+    // Hint for the browser's autofill, e.g. "email", "current-password"
+    autoComplete?: string;
     register: UseFormRegister<FieldValues>,
     errors: FieldErrors
 }
@@ -24,6 +26,7 @@ const Input: React.FC<InputProps> = ({
     type = "text",
     disabled,
     formatPrice,
+    autoComplete,
     register,
     required,
     errors
@@ -47,6 +50,7 @@ const Input: React.FC<InputProps> = ({
         {...register(id, {required})}
         placeholder=" "
         type={type}
+        autoComplete={autoComplete}
         className={`
                 peer
                 w-full

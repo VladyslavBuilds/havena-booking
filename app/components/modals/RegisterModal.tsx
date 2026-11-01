@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import Link from 'next/link';
 import getErrorMessage from "@/app/libs/getErrorMessage";
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
@@ -63,14 +64,23 @@ const RegisterModal = () => {
     }, [loginModal, registerModal])
 
     const bodyContent = (
-        <div className='flex flex-col gap-4'>
+        // A real <form> so the browser can offer to save the new login and
+        // Enter submits; validation stays with react-hook-form (noValidate).
+        <form
+            id="register-form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className='flex flex-col gap-4'
+        >
             <Heading
             title="Welcome to Havena"
             subtitle="Create an account!"
             />
            <Input
             id="email"
+            type="email"
             label="Email"
+            autoComplete="email"
             disabled={isLoading}
             register={register}
             errors={errors}
@@ -79,6 +89,7 @@ const RegisterModal = () => {
             <Input
             id="name"
             label="Name"
+            autoComplete="name"
             disabled={isLoading}
             register={register}
             errors={errors}
@@ -88,16 +99,30 @@ const RegisterModal = () => {
             id="password"
             type="password"
             label="Password"
+            autoComplete="new-password"
             disabled={isLoading}
             register={register}
             errors={errors}
             required
             />
-        </div>
+            <button type="submit" className="hidden" tabIndex={-1} aria-hidden="true" />
+        </form>
     );
 
     const footerContent = (
         <div className='flex flex-col gap-4 mt-3'>
+            {/* Information, not a checkbox: the policy is a notice, and the
+                terms are accepted by continuing (same pattern as Airbnb) */}
+            <div className="text-xs font-light text-neutral-500 dark:text-neutral-400 text-center">
+                By continuing you agree to the{" "}
+                <Link href="/terms" onClick={registerModal.onClose} className="underline">
+                    Terms of Use
+                </Link>
+                {" "}and acknowledge the{" "}
+                <Link href="/privacy" onClick={registerModal.onClose} className="underline">
+                    Privacy Policy
+                </Link>.
+            </div>
             <hr />
             <Button 
                 outline

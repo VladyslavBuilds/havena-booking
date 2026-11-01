@@ -10,6 +10,7 @@ import RegisterModal from "./components/modals/RegisterModal";
 import SearchModal from "./components/modals/SearchModal";
 import ReviewModal from "./components/modals/ReviewModal";
 import AuthErrorToast from "./components/AuthErrorToast";
+import Footer from "./components/Footer";
 
 import ToasterProvider from "./providers/ToasterProvider";
 import ThemeProvider from "./providers/ThemeProvider";
@@ -53,7 +54,7 @@ export default async function RootLayout({
       // next-themes adds the theme class to <html> on the client before hydration
       suppressHydrationWarning
     >
-      <body className={font.className}>
+      <body className={`${font.className} min-h-full flex flex-col`}>
         <ThemeProvider>
         <ToasterProvider />
         {/* These read useSearchParams(); static pages need a Suspense boundary around them */}
@@ -66,9 +67,11 @@ export default async function RootLayout({
         <LoginModal />
         <RegisterModal />
         <Navbar currentUser={currentUser}/>
-        <div className="pb-20 pt-28">
+        {/* flex-1 pushes the footer to the bottom on short pages */}
+        <div className="flex-1 pb-20 pt-28">
           {children}
         </div>
+        <Footer />
         </ThemeProvider>
         </body>
     </html>
