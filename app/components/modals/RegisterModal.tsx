@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import Link from 'next/link';
 import getErrorMessage from "@/app/libs/getErrorMessage";
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
@@ -110,6 +111,18 @@ const RegisterModal = () => {
 
     const footerContent = (
         <div className='flex flex-col gap-4 mt-3'>
+            {/* Information, not a checkbox: the policy is a notice, and the
+                terms are accepted by continuing (same pattern as Airbnb) */}
+            <div className="text-xs font-light text-neutral-500 dark:text-neutral-400 text-center">
+                By continuing you agree to the{" "}
+                <Link href="/terms" onClick={registerModal.onClose} className="underline">
+                    Terms of Use
+                </Link>
+                {" "}and acknowledge the{" "}
+                <Link href="/privacy" onClick={registerModal.onClose} className="underline">
+                    Privacy Policy
+                </Link>.
+            </div>
             <hr />
             <Button 
                 outline
