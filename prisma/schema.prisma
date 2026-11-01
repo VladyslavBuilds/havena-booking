@@ -43,6 +43,9 @@ model Account{
     scope String?
     id_token String? @db.String
     session_state String?
+    // GitHub adds this field to its token response when tokens expire
+    // (GitHub Apps); without a column for it the account cannot be saved
+    refresh_token_expires_in Int?
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
