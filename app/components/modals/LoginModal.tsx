@@ -71,15 +71,25 @@ const LoginModal = () => {
         registerModal.onOpen();
     }, [loginModal, registerModal])
 
+    // A real <form>: the browser offers to save and autofill the login, and
+    // Enter in any field submits. noValidate leaves validation to
+    // react-hook-form instead of the browser's own bubbles.
     const bodyContent = (
-        <div className='flex flex-col gap-4'>
+        <form
+            id="login-form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className='flex flex-col gap-4'
+        >
             <Heading
             title="Welcome back"
             subtitle="Log in to your account!"
             />
             <Input
                 id="email"
+                type="email"
                 label="Email"
+                autoComplete="email"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
@@ -89,12 +99,15 @@ const LoginModal = () => {
                 id="password"
                 type="password"
                 label="Password"
+                autoComplete="current-password"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
                 required
             />
-        </div>
+            {/* lets Enter submit the form; the visible button is in the modal footer */}
+            <button type="submit" className="hidden" tabIndex={-1} aria-hidden="true" />
+        </form>
     );
 
     const footerContent = (

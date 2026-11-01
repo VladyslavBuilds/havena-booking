@@ -63,14 +63,23 @@ const RegisterModal = () => {
     }, [loginModal, registerModal])
 
     const bodyContent = (
-        <div className='flex flex-col gap-4'>
+        // A real <form> so the browser can offer to save the new login and
+        // Enter submits; validation stays with react-hook-form (noValidate).
+        <form
+            id="register-form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className='flex flex-col gap-4'
+        >
             <Heading
             title="Welcome to Havena"
             subtitle="Create an account!"
             />
            <Input
             id="email"
+            type="email"
             label="Email"
+            autoComplete="email"
             disabled={isLoading}
             register={register}
             errors={errors}
@@ -79,6 +88,7 @@ const RegisterModal = () => {
             <Input
             id="name"
             label="Name"
+            autoComplete="name"
             disabled={isLoading}
             register={register}
             errors={errors}
@@ -88,12 +98,14 @@ const RegisterModal = () => {
             id="password"
             type="password"
             label="Password"
+            autoComplete="new-password"
             disabled={isLoading}
             register={register}
             errors={errors}
             required
             />
-        </div>
+            <button type="submit" className="hidden" tabIndex={-1} aria-hidden="true" />
+        </form>
     );
 
     const footerContent = (
