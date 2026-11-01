@@ -31,6 +31,12 @@
       color: var(--color-neutral-100);
     }
   }
+
+  /* Tailwind 4 also stopped showing the hand cursor on buttons */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 /* Third-party widgets that ship their own light styles */
