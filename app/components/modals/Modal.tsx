@@ -118,18 +118,21 @@ const Modal: React.FC<ModalProps> = ({
             onClick={handleBackdropClick}
             className="
             justify-center
-            items-center
             flex
             overflow-x-hidden
             overflow-y-auto
             fixed
             inset-0
             z-50
+            py-6
             outline-none
             focus:outline-none
             bg-neutral-800/70
             "
             >
+                {/* my-auto centres the panel like items-center would, but when
+                    the panel is taller than the screen the margins collapse to
+                    zero and the overlay scrolls, so the header stays reachable */}
                 <div
                     className="
                     relative
@@ -137,7 +140,7 @@ const Modal: React.FC<ModalProps> = ({
                     md:w-4/6
                     lg:w-3/6
                     xl:w-2/5
-                    my-6
+                    my-auto
                     mx-auto
                     h-full
                     lg:h-auto
