@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "../Button";
 
@@ -62,6 +62,51 @@ const Modal: React.FC<ModalProps> = ({
         secondaryAction();
     }, [disabled, secondaryAction]);
 
+    // Escape closes the modal too, unless it was pressed inside an open
+    // dropdown (react-select sets aria-expanded="true" on its input while
+    // the list is open): then the key only closes that list. The listener
+    // runs in the capture phase, i.e. before the widget reacts to the key,
+    // so the attribute still shows the state at the moment of the press.
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== 'Escape') {
+                return;
+            }
+
+            const target = event.target as HTMLElement | null;
+            if (target?.getAttribute('aria-expanded') === 'true') {
+                return;
+            }
+
+            handleClose();
+        };
+
+        document.addEventListener('keydown', handleKeyDown, true);
+
+        return () => document.removeEventListener('keydown', handleKeyDown, true);
+    }, [isOpen, handleClose]);
+
+    // A click on the dark backdrop closes the modal. Both the press and the
+    // release must land on the backdrop itself (not on the panel), so
+    // dragging a text selection out of an input doesn't close it.
+    const pressedOnBackdrop = useRef(false);
+
+    const handleBackdropMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+        pressedOnBackdrop.current = event.target === event.currentTarget;
+    };
+
+    const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        if (pressedOnBackdrop.current && event.target === event.currentTarget) {
+            handleClose();
+        }
+
+        pressedOnBackdrop.current = false;
+    };
+
     if (!isOpen) {
         return null;
     }
@@ -69,6 +114,8 @@ const Modal: React.FC<ModalProps> = ({
     return(
         <>
             <div
+            onMouseDown={handleBackdropMouseDown}
+            onClick={handleBackdropClick}
             className="
             justify-center
             items-center
