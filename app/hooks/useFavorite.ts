@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 
 import { SafeUser } from "../types";
+import getErrorMessage from "../libs/getErrorMessage";
 
 import useLoginModal from "./useLoginModal";
 
@@ -19,11 +20,23 @@ const useFavorite = ({
     const router = useRouter();
     const loginModal = useLoginModal();
 
-    const hasFavorited = useMemo(() => {
-        const list = currentUser?.favoriteIds || [];
+    // What the server knows (comes with the page as a prop).
+    const serverValue = (currentUser?.favoriteIds || []).includes(listingId);
 
-        return list.includes(listingId);
-    }, [currentUser, listingId]);
+    // Optimistic update: the heart changes colour the moment it is clicked,
+    // the request runs in the background and the colour is rolled back only
+    // if the request fails. `null` means "no pending guess, show the server
+    // value". Once a fresh server value arrives (router.refresh), the guess
+    // is dropped so the server stays the source of truth.
+    const [optimistic, setOptimistic] = useState<boolean | null>(null);
+    const [seenServerValue, setSeenServerValue] = useState(serverValue);
+
+    if (seenServerValue !== serverValue) {
+        setSeenServerValue(serverValue);
+        setOptimistic(null);
+    }
+
+    const hasFavorited = optimistic ?? serverValue;
 
     const toggleFavorite = useCallback(async (
         e: React.MouseEvent<HTMLDivElement>
@@ -34,20 +47,21 @@ const useFavorite = ({
             return loginModal.onOpen();
         }
 
-        try {
-            let request;
+        const next = !hasFavorited;
+        setOptimistic(next);
 
-            if (hasFavorited) {
-                request = () => axios.delete(`/api/favorites/${listingId}`);
+        try {
+            if (next) {
+                await axios.post(`/api/favorites/${listingId}`);
             } else {
-                request = () => axios.post(`/api/favorites/${listingId}`);
+                await axios.delete(`/api/favorites/${listingId}`);
             }
 
-            await request();
+            // Bring the rest of the page (favorites list, counters) up to date
             router.refresh();
-            toast.success('Success');
-        } catch {
-            toast.error('Something went wrong.');
+        } catch (error) {
+            setOptimistic(null);
+            toast.error(getErrorMessage(error));
         }
     },
     [
