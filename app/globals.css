@@ -31,6 +31,12 @@
       color: var(--color-neutral-100);
     }
   }
+
+  /* Tailwind 4 also stopped showing the hand cursor on buttons */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 /* Third-party widgets that ship their own light styles */
@@ -49,10 +55,20 @@
 .dark .rdrDayDisabled {
   background: var(--color-neutral-800);
 }
-.dark .rdrMonthAndYearPickers select,
 .dark .rdrNextPrevButton {
   background: var(--color-neutral-800);
+}
+/* Hover: one step lighter than the button itself, like the rest of the
+   dark UI (the library's light-blue hover looked white here) */
+.dark .rdrNextPrevButton:hover,
+.dark .rdrMonthAndYearPickers select:hover {
+  background-color: var(--color-neutral-700);
+}
+.dark .rdrMonthAndYearPickers select {
+  background-color: var(--color-neutral-800);
   color: var(--color-neutral-100);
+  /* same chevron as the library's, but light, so it is visible on dark */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='6' viewBox='0 0 9 6'><path d='M1 1l3.5 3.5L8 1' fill='none' stroke='%23d4d4d4' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
 }
 .dark .rdrPprevButton i {
   border-color: transparent var(--color-neutral-200) transparent transparent;
@@ -62,6 +78,60 @@
 }
 .dark .rdrWeekDay {
   color: var(--color-neutral-400);
+}
+
+/*
+ * Month and year dropdowns of the calendar. A native <select> list cannot
+ * be sized with CSS, so in Chromium we switch it to the customisable
+ * select (appearance: base-select) and limit the open list to seven rows
+ * that scroll. Browsers without support ignore these rules and keep their
+ * native list.
+ */
+.rdrCalendarWrapper .rdrMonthAndYearPickers select,
+.rdrCalendarWrapper .rdrMonthAndYearPickers select::picker(select) {
+  appearance: base-select;
+}
+.rdrCalendarWrapper .rdrMonthAndYearPickers select::picker-icon {
+  display: none; /* the library draws its own chevron */
+}
+.rdrCalendarWrapper .rdrMonthAndYearPickers select::picker(select) {
+  margin-top: 4px;
+  padding: 4px;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0.75rem;
+  background: var(--color-white);
+  color: var(--color-neutral-800);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  max-height: calc(7 * 36px + 2 * 4px + 2px);
+  overflow-y: auto;
+}
+.rdrCalendarWrapper .rdrMonthAndYearPickers option {
+  box-sizing: border-box;
+  min-height: 36px;
+  padding: 8px 14px;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  font-weight: 400; /* the select itself is bold; only the chosen row is */
+}
+.rdrCalendarWrapper .rdrMonthAndYearPickers option::checkmark {
+  display: none;
+}
+.rdrCalendarWrapper .rdrMonthAndYearPickers option:hover,
+.rdrCalendarWrapper .rdrMonthAndYearPickers option:focus-visible {
+  background: var(--color-neutral-100);
+  outline: none;
+}
+.rdrCalendarWrapper .rdrMonthAndYearPickers option:checked {
+  font-weight: 600;
+}
+.dark .rdrCalendarWrapper .rdrMonthAndYearPickers select::picker(select) {
+  border-color: var(--color-neutral-700);
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-100);
+}
+.dark .rdrCalendarWrapper .rdrMonthAndYearPickers option:hover,
+.dark .rdrCalendarWrapper .rdrMonthAndYearPickers option:focus-visible {
+  background: var(--color-neutral-800);
 }
 
 .dark .leaflet-popup-content-wrapper,

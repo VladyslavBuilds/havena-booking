@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { signOut } from "next-auth/react";
 
 import MenuItem from "./MenuItem";
@@ -26,9 +26,35 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const loginModal = useLoginModal();
     const rentModal = useRentModal();
     const [isOpen, setIsOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
+    }, []);
+
+    // Close the dropdown when the user presses anywhere outside of it.
+    // The navbar stays mounted while navigating, so without this the
+    // menu would simply stay open on the next page.
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        const handlePointerDown = (event: PointerEvent) => {
+            if (!menuRef.current?.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('pointerdown', handlePointerDown);
+
+        return () => document.removeEventListener('pointerdown', handlePointerDown);
+    }, [isOpen]);
+
+    // Every item closes the menu first and then does its job.
+    const select = useCallback((action: () => void) => () => {
+        setIsOpen(false);
+        action();
     }, []);
 
     const onRent = useCallback(() => {
@@ -40,9 +66,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
     }, [currentUser, loginModal, rentModal])
 
     return(
-        <div className="relative">
+        <div ref={menuRef} className="relative">
             <div className="flex flex-row items-center gap-3">
-                <div 
+                <div
                 onClick={onRent}
                 className="
                 hidden
@@ -59,7 +85,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 >
                     List your home
                 </div>
-                <div 
+                <div
                 onClick={toggleOpen}
                 className="
                 p-4
@@ -102,39 +128,39 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         {currentUser ? (
                                 <>
                                     <MenuItem
-                                        onClick={() => router.push("/trips")} 
+                                        onClick={select(() => router.push("/trips"))}
                                         label="My trips"
                                     />
                                     <MenuItem
-                                        onClick={() => router.push("/favorites")} 
+                                        onClick={select(() => router.push("/favorites"))}
                                         label="My favorites"
                                     />
                                     <MenuItem
-                                        onClick={() => router.push("/reservations")} 
+                                        onClick={select(() => router.push("/reservations"))}
                                         label="My reservations"
                                     />
                                     <MenuItem
-                                        onClick={() => router.push("/properties")} 
+                                        onClick={select(() => router.push("/properties"))}
                                         label="My properties"
                                     />
                                     <MenuItem
-                                        onClick={rentModal.onOpen} 
+                                        onClick={select(rentModal.onOpen)}
                                         label="List my home"
                                     />
                                     <hr />
                                     <MenuItem
-                                        onClick={() => signOut() } 
+                                        onClick={select(() => signOut())}
                                         label="Logout"
                                     />
                                 </>
                         ) : (
                                 <>
                                     <MenuItem
-                                        onClick={loginModal.onOpen} 
+                                        onClick={select(loginModal.onOpen)}
                                         label="Login"
                                     />
                                     <MenuItem
-                                        onClick={registerModal.onOpen} 
+                                        onClick={select(registerModal.onOpen)}
                                         label="Sign up"
                                     />
                                 </>

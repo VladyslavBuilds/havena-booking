@@ -1,10 +1,10 @@
 'use client';
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
 import { BiMap, BiListUl } from "react-icons/bi";
 
 import { SafeListing, SafeUser } from "@/app/types";
+import useListingsView from "@/app/hooks/useListingsView";
 
 import Hero from "../Hero";
 import ListingCard from "./ListingCard";
@@ -29,10 +29,12 @@ interface ListingsViewProps {
 // The search results, either as a grid of cards or as a map with price
 // markers. The floating button at the bottom switches between the two.
 const ListingsView: React.FC<ListingsViewProps> = ({ listings, currentUser, showHero }) => {
-    const [showMap, setShowMap] = useState(false);
+    // Kept in a store (not local state) so the choice is remembered while
+    // this component is temporarily unmounted, e.g. by an empty category.
+    const { showMap, setShowMap } = useListingsView();
 
     const toggleView = () => {
-        setShowMap((value) => !value);
+        setShowMap(!showMap);
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 

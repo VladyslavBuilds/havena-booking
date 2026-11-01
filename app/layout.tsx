@@ -9,6 +9,7 @@ import LoginModal from "./components/modals/LoginModal";
 import RegisterModal from "./components/modals/RegisterModal";
 import SearchModal from "./components/modals/SearchModal";
 import ReviewModal from "./components/modals/ReviewModal";
+import AuthErrorToast from "./components/AuthErrorToast";
 
 import ToasterProvider from "./providers/ToasterProvider";
 import ThemeProvider from "./providers/ThemeProvider";
@@ -55,9 +56,10 @@ export default async function RootLayout({
       <body className={font.className}>
         <ThemeProvider>
         <ToasterProvider />
-        {/* SearchModal reads useSearchParams(); static pages need a Suspense boundary around it */}
+        {/* These read useSearchParams(); static pages need a Suspense boundary around them */}
         <Suspense fallback={null}>
           <SearchModal />
+          <AuthErrorToast />
         </Suspense>
         <RentModal />
         <ReviewModal />
