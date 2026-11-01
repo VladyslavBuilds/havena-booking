@@ -25,6 +25,11 @@ const Calendar: React.FC<CalendarProps> = ({
                 date={new Date()}
                 onChange={onChange}
                 direction="vertical"
+                // Two months at once: a stay that crosses a month boundary is
+                // selected without paging, and the whole range stays visible.
+                // With one month the library jumps back to the start month
+                // after the second click, which looks like the pick failed.
+                months={2}
                 showDateDisplay={false}
                 minDate={new Date()}
                 disabledDates={disabledDates}
