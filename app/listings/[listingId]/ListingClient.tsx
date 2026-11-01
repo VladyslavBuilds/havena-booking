@@ -91,6 +91,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
         .then(() => {
             toast.success('Listing reserved!');
             setDateRange(initialDateRange);
+            // Drop the client-side copy of this page, otherwise the browser's
+            // Back button would show the calendar without the new booking.
+            router.refresh();
             router.push('/trips');
         })
         .catch((error) => {
