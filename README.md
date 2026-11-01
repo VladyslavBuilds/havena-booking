@@ -33,6 +33,8 @@ The demo guest already has three finished stays without a review, so you can go 
 **Everyone**
 - Sign up with email & password, or continue with GitHub / Google
 - **Light and dark theme**, remembered across visits; the map switches to a dark basemap too
+- Instant feedback: favourites toggle optimistically, modals close on backdrop click or Escape, forms work with password managers
+- Footer with **imprint, privacy policy and terms of use** (only strictly necessary cookies, so no cookie banner)
 
 ## Screenshots
 
@@ -61,6 +63,9 @@ The first version was built step by step from a popular YouTube Airbnb-clone tut
 | [#7](https://github.com/VladyslavBuilds/havena-booking/pull/7) | **Hero banner and map view** of the results; SVG country flags; design fixes |
 | [#8](https://github.com/VladyslavBuilds/havena-booking/pull/8) | **Dark mode** with a themed map |
 | [#9](https://github.com/VladyslavBuilds/havena-booking/pull/9) | Deployment to Vercel |
+| [#10](https://github.com/VladyslavBuilds/havena-booking/pull/10) | **GitHub sign-in on production** failed: GitHub sends `refresh_token_expires_in`, which the `Account` model did not have; found through the Vercel logs |
+| [#11](https://github.com/VladyslavBuilds/havena-booking/pull/11) | **Fixes from testing the live site:** modals close on backdrop click / Escape, the user menu closes after a choice, the calendar shows a new booking after pressing Back (router cache), map view survives an empty category, a seven-row year dropdown, OAuth errors shown as a toast |
+| [#12](https://github.com/VladyslavBuilds/havena-booking/pull/12) | **Second round:** optimistic favourites, a two-month calendar for stays across month boundaries, real `<form>`s with autocomplete for login/register, footer with imprint, privacy policy and terms of use |
 
 ## Tech stack
 
