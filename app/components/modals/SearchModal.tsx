@@ -4,8 +4,9 @@ import { formatISO } from "date-fns";
 import qs from "query-string";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { Range } from "react-date-range";
 import dynamic from "next/dynamic";
+
+import { DateRangeValue } from "@/app/types";
 
 import Modal from "./Modal";
 import CountrySelect, { CountrySelectValue } from "../inputs/CountrySelect";
@@ -37,10 +38,9 @@ const SearchModal = () => {
     const [guestCount, setGuestCount] = useState(1);
     const [roomCount, setRoomCount] = useState(1);
     const [bathroomCount, setBathroomCount] = useState(1);
-    const [dateRange, setDateRange] = useState<Range>({
+    const [dateRange, setDateRange] = useState<DateRangeValue>({
         startDate: new Date(),
         endDate: new Date(),
-        key: 'selection'
     });
 
     const onBack = useCallback(() => {
@@ -143,7 +143,7 @@ const SearchModal = () => {
                 />
                 <Calendar 
                     value={dateRange}
-                    onChange={(value) => setDateRange(value.selection)}
+                    onChange={setDateRange}
                 />
             </div>
         )

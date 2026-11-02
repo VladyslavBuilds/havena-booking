@@ -39,3 +39,10 @@ User,
     updatedAt: string;
     emailVerified: string | null;
 };
+
+// A stay: check-in and check-out day. When only the check-in has been
+// picked, both fields hold the same day.
+export type DateRangeValue = {
+    startDate: Date;
+    endDate: Date;
+};

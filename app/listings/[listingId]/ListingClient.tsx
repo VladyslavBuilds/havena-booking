@@ -1,6 +1,5 @@
 'use client'
 
-import { Range } from "react-date-range";
 import toast from "react-hot-toast";
 import axios from "axios";
 import getErrorMessage from "@/app/libs/getErrorMessage";
@@ -8,7 +7,7 @@ import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
-import { SafeListing, SafeReservation, SafeReview, SafeUser } from "@/app/types";
+import { DateRangeValue, SafeListing, SafeReservation, SafeReview, SafeUser } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
 import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
@@ -18,10 +17,9 @@ import ListingReviews from "@/app/components/listings/ListingReviews";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 
-const initialDateRange = {
+const initialDateRange: DateRangeValue = {
     startDate: new Date(),
     endDate: new Date(),
-    key: 'selection'
 };
 
 interface ListingClientProps {
@@ -58,7 +56,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }, [reservations]);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+    const [dateRange, setDateRange] = useState<DateRangeValue>(initialDateRange);
 
     const totalPrice = useMemo(() => {
         if (dateRange.startDate && dateRange.endDate) {

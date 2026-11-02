@@ -1,41 +1,68 @@
 'use client';
 
-import React from "react";
-import { DateRange, Range, RangeKeyDict } from "react-date-range";
+import { isAfter, isWithinInterval, startOfToday } from "date-fns";
+import { useState } from "react";
+import { DayPicker, type DateRange as DayPickerRange } from "react-day-picker";
 
-import 'react-date-range/dist/styles.css'
-import 'react-date-range/dist/theme/default.css'
+import "react-day-picker/style.css";
+
+import { DateRangeValue } from "@/app/types";
 
 interface CalendarProps {
-    value: Range;
-    onChange: (value: RangeKeyDict) => void;
-    disabledDates?: Date[]
+    value: DateRangeValue;
+    onChange: (value: DateRangeValue) => void;
+    // Days that cannot be booked (existing reservations)
+    disabledDates?: Date[];
 }
 
+// One month at a time. Picking works like on Airbnb: the first click sets
+// the check-in, the next click after it sets the check-out, any other click
+// starts over. Days of the neighbouring month shown in the grid are
+// clickable, so a stay across a month boundary needs no paging, and the
+// view stays on the month the user is looking at.
 const Calendar: React.FC<CalendarProps> = ({
     value,
     onChange,
-    disabledDates
+    disabledDates = []
 }) => {
+    const today = startOfToday();
+    const selected: DayPickerRange = { from: value.startDate, to: value.endDate };
+
+    // true between the check-in click and the check-out click. The value
+    // alone cannot tell "check-in picked" from the initial "today - today".
+    const [awaitingCheckOut, setAwaitingCheckOut] = useState(false);
+
+    const handleSelect = (_range: DayPickerRange | undefined, day: Date) => {
+        if (awaitingCheckOut && isAfter(day, value.startDate)) {
+            const blocked = disabledDates.some((date) =>
+                isWithinInterval(date, { start: value.startDate, end: day })
+            );
+
+            // A booked day inside the stay: start again from the clicked day
+            if (!blocked) {
+                setAwaitingCheckOut(false);
+                return onChange({ startDate: value.startDate, endDate: day });
+            }
+        }
+
+        setAwaitingCheckOut(true);
+        onChange({ startDate: day, endDate: day });
+    };
+
     return (
-        <div>
-            <DateRange 
-                rangeColors={["#262626"]}
-                ranges={[value]}
-                date={new Date()}
-                onChange={onChange}
-                direction="vertical"
-                // Two months at once: a stay that crosses a month boundary is
-                // selected without paging, and the whole range stays visible.
-                // With one month the library jumps back to the start month
-                // after the second click, which looks like the pick failed.
-                months={2}
-                showDateDisplay={false}
-                minDate={new Date()}
-                disabledDates={disabledDates}
-            />
-        </div>
+        <DayPicker
+            mode="range"
+            selected={selected}
+            onSelect={handleSelect}
+            numberOfMonths={1}
+            navLayout="around"
+            startMonth={today}
+            disabled={[{ before: today }, ...disabledDates]}
+            showOutsideDays
+            weekStartsOn={1}
+            className="havena-calendar"
+        />
     );
 }
 
-export default Calendar
+export default Calendar;
