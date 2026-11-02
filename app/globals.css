@@ -39,99 +39,93 @@
   }
 }
 
-/* Third-party widgets that ship their own light styles */
-.dark .rdrCalendarWrapper,
-.dark .rdrDateDisplayWrapper {
-  background: var(--color-neutral-900);
-  color: var(--color-neutral-100);
-}
-.dark .rdrDayNumber span {
-  color: var(--color-neutral-200);
-}
-.dark .rdrDayPassive .rdrDayNumber span,
-.dark .rdrDayDisabled .rdrDayNumber span {
-  color: var(--color-neutral-600);
-}
-.dark .rdrDayDisabled {
-  background: var(--color-neutral-800);
-}
-.dark .rdrNextPrevButton {
-  background: var(--color-neutral-800);
-}
-/* Hover: one step lighter than the button itself, like the rest of the
-   dark UI (the library's light-blue hover looked white here) */
-.dark .rdrNextPrevButton:hover,
-.dark .rdrMonthAndYearPickers select:hover {
-  background-color: var(--color-neutral-700);
-}
-.dark .rdrMonthAndYearPickers select {
-  background-color: var(--color-neutral-800);
-  color: var(--color-neutral-100);
-  /* same chevron as the library's, but light, so it is visible on dark */
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='6' viewBox='0 0 9 6'><path d='M1 1l3.5 3.5L8 1' fill='none' stroke='%23d4d4d4' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-}
-.dark .rdrPprevButton i {
-  border-color: transparent var(--color-neutral-200) transparent transparent;
-}
-.dark .rdrNextButton i {
-  border-color: transparent transparent transparent var(--color-neutral-200);
-}
-.dark .rdrWeekDay {
-  color: var(--color-neutral-400);
-}
-
 /*
- * Month and year dropdowns of the calendar. A native <select> list cannot
- * be sized with CSS, so in Chromium we switch it to the customisable
- * select (appearance: base-select) and limit the open list to seven rows
- * that scroll. Browsers without support ignore these rules and keep their
- * native list.
+ * Calendar (react-day-picker). The library is styled through CSS variables;
+ * here they get Havena's colours, and the grid is stretched to the width of
+ * the box it sits in (seven equal columns). The double class beats the
+ * library's own `.rdp-root` defaults, which are loaded after this file.
  */
-.rdrCalendarWrapper .rdrMonthAndYearPickers select,
-.rdrCalendarWrapper .rdrMonthAndYearPickers select::picker(select) {
-  appearance: base-select;
+.havena-calendar.rdp-root {
+  --rdp-accent-color: var(--color-neutral-800);
+  --rdp-accent-background-color: var(--color-neutral-100);
+  --rdp-range_middle-background-color: var(--color-neutral-100);
+  --rdp-range_start-color: var(--color-white);
+  --rdp-range_end-color: var(--color-white);
+  --rdp-today-color: var(--color-rose-500);
+  --rdp-day-height: 2.75rem;
+  --rdp-day-width: 100%;
+  --rdp-day_button-height: 2.5rem;
+  --rdp-day_button-width: 2.5rem;
+  --rdp-selected-border: none;
+  --rdp-outside-opacity: 0.45;
+  --rdp-disabled-opacity: 0.3;
+  --rdp-nav_button-height: 2rem;
+  --rdp-nav_button-width: 2rem;
+  width: 100%;
+  padding: 1rem;
+  font-size: 0.95rem;
 }
-.rdrCalendarWrapper .rdrMonthAndYearPickers select::picker-icon {
-  display: none; /* the library draws its own chevron */
+.havena-calendar .rdp-months {
+  max-width: none;
 }
-.rdrCalendarWrapper .rdrMonthAndYearPickers select::picker(select) {
-  margin-top: 4px;
-  padding: 4px;
-  border: 1px solid var(--color-neutral-200);
-  border-radius: 0.75rem;
-  background: var(--color-white);
-  color: var(--color-neutral-800);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  max-height: calc(7 * 36px + 2 * 4px + 2px);
-  overflow-y: auto;
+.havena-calendar .rdp-month {
+  width: 100%;
 }
-.rdrCalendarWrapper .rdrMonthAndYearPickers option {
-  box-sizing: border-box;
-  min-height: 36px;
-  padding: 8px 14px;
-  border-radius: 0.5rem;
-  font-size: 14px;
-  font-weight: 400; /* the select itself is bold; only the chosen row is */
+.havena-calendar .rdp-month_grid {
+  width: 100%;
+  table-layout: fixed;
 }
-.rdrCalendarWrapper .rdrMonthAndYearPickers option::checkmark {
-  display: none;
-}
-.rdrCalendarWrapper .rdrMonthAndYearPickers option:hover,
-.rdrCalendarWrapper .rdrMonthAndYearPickers option:focus-visible {
-  background: var(--color-neutral-100);
-  outline: none;
-}
-.rdrCalendarWrapper .rdrMonthAndYearPickers option:checked {
+.havena-calendar .rdp-month_caption {
+  font-size: 1rem;
   font-weight: 600;
 }
-.dark .rdrCalendarWrapper .rdrMonthAndYearPickers select::picker(select) {
-  border-color: var(--color-neutral-700);
-  background: var(--color-neutral-900);
-  color: var(--color-neutral-100);
+.havena-calendar .rdp-weekday {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 1;
+  color: var(--color-neutral-500);
 }
-.dark .rdrCalendarWrapper .rdrMonthAndYearPickers option:hover,
-.dark .rdrCalendarWrapper .rdrMonthAndYearPickers option:focus-visible {
-  background: var(--color-neutral-800);
+.havena-calendar .rdp-day_button {
+  margin: 0 auto;
+}
+/* Hover ring on days that can be picked */
+.havena-calendar .rdp-day:not(.rdp-selected) .rdp-day_button:not(:disabled):hover {
+  border-color: var(--color-neutral-800);
+}
+.havena-calendar .rdp-selected {
+  font-size: inherit;
+  font-weight: 600;
+}
+.havena-calendar .rdp-disabled .rdp-day_button {
+  text-decoration: line-through;
+}
+.havena-calendar .rdp-button_previous,
+.havena-calendar .rdp-button_next {
+  border-radius: 9999px;
+  transition: background-color 150ms;
+}
+.havena-calendar .rdp-button_previous:hover,
+.havena-calendar .rdp-button_next:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.dark .havena-calendar {
+  --rdp-accent-color: var(--color-white);
+  --rdp-accent-background-color: var(--color-neutral-800);
+  --rdp-range_middle-background-color: var(--color-neutral-800);
+  --rdp-range_start-color: var(--color-neutral-900);
+  --rdp-range_end-color: var(--color-neutral-900);
+  --rdp-today-color: var(--color-rose-400);
+}
+.dark .havena-calendar .rdp-weekday {
+  color: var(--color-neutral-400);
+}
+.dark .havena-calendar .rdp-day:not(.rdp-selected) .rdp-day_button:not(:disabled):hover {
+  border-color: var(--color-white);
+}
+.dark .havena-calendar .rdp-button_previous:hover,
+.dark .havena-calendar .rdp-button_next:hover {
+  background-color: var(--color-neutral-800);
 }
 
 .dark .leaflet-popup-content-wrapper,
@@ -171,13 +165,4 @@ body,
 .leaflet-pane,
 .leaflet-top {
   z-index: 0 !important;
-}
-
-.rdrMonth {
-  width: 100% !important;
-}
-
-.rdrCalendarWrapper {
-  font-size: 16px !important;
-  width: 100% !important;
 }

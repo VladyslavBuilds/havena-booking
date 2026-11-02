@@ -74,7 +74,7 @@ The first version was built step by step from a popular YouTube Airbnb-clone tut
 - **Database:** MongoDB Atlas with Prisma ORM
 - **Auth:** NextAuth v4 (credentials with bcrypt, GitHub and Google OAuth)
 - **Validation:** zod on every API route
-- **UI libraries:** React Hook Form, Zustand, react-select, react-date-range, Leaflet / react-leaflet, react-hot-toast, react-icons
+- **UI libraries:** React Hook Form, Zustand, react-select, react-day-picker, Leaflet / react-leaflet, react-hot-toast, react-icons
 - **Media:** Cloudinary (unsigned uploads from the browser)
 - **Hosting:** Vercel
 
