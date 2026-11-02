@@ -47,8 +47,8 @@
  */
 .havena-calendar.rdp-root {
   --rdp-accent-color: var(--color-neutral-800);
-  --rdp-accent-background-color: var(--color-neutral-100);
-  --rdp-range_middle-background-color: var(--color-neutral-100);
+  --rdp-accent-background-color: var(--color-neutral-200);
+  --rdp-range_middle-background-color: var(--color-neutral-200);
   --rdp-range_start-color: var(--color-white);
   --rdp-range_end-color: var(--color-white);
   --rdp-today-color: var(--color-rose-500);
@@ -111,8 +111,8 @@
 
 .dark .havena-calendar {
   --rdp-accent-color: var(--color-white);
-  --rdp-accent-background-color: var(--color-neutral-800);
-  --rdp-range_middle-background-color: var(--color-neutral-800);
+  --rdp-accent-background-color: var(--color-neutral-700);
+  --rdp-range_middle-background-color: var(--color-neutral-700);
   --rdp-range_start-color: var(--color-neutral-900);
   --rdp-range_end-color: var(--color-neutral-900);
   --rdp-today-color: var(--color-rose-400);
